@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:solat_tv/src/views/ui/widget/change_theme_switch.dart';
+import 'home.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -26,7 +27,8 @@ class Dashboard extends StatelessWidget {
                 child: ElevatedButton(
                   child: Text('Back to home page'),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Home()));
                   },
                 ),
               ),

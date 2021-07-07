@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:solat_tv/src/views/ui/widget/change_theme_switch.dart';
 import 'dashboard.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() =>
+      _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +45,7 @@ class Home extends StatelessWidget {
                   child: Text('Go to dashboard'),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Dashboard()));
+                        MaterialPageRoute(builder: (context) => Dashboard())).then((_) => setState(() {}));
                   },
                 ),
               ),
