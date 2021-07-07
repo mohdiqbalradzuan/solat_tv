@@ -22,7 +22,11 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 
+<br>
+<br>
+
 <!-- PROJECT LOGO -->
+<img src="https://github.com/mohdiqbalradzuan/solat_tv/blob/master/assets/images/mosque_icon.png?raw=true" width="100">
 
 <br>
 <br>
@@ -30,7 +34,7 @@
 <!-- ABOUT THE PROJECT -->
 # Solat TV
 
-This application is build to support Muslim to aware on the prayer times by alert users with prayer call when the time comes. This apps has capabilities to deal with HDMI CEC client to manage the Smart TV with certain personalization.
+This application is build to support Muslim to keep them aware on the prayer times. The application will alert users with prayer call when the time comes. This application also has capabilities to integrate with HDMI CEC client to manage how this application interact with Android TV with certain personalization.
 
 <br>
 
@@ -40,7 +44,7 @@ Put the main description here
 <br>
 
 ## Disclaimer
-1. This application currently only support integration with JAKIM website.
+1. This application only support integration with JAKIM website `Malaysia only`. Please refer to [roadmap](#roadmap) for planned release.
 2. This application integrate with data that were crawled from official e-solat [JAKIM website](http://www.e-solat.gov.my/web) and locally stored into application database for fast access
 
 <br>
@@ -80,22 +84,29 @@ Detail out installation installation / build steps here
 <br>
 <br>
 
-
 <!-- ROADMAP -->
 # Roadmap
 
 See the [open issues](https://github.com/mohdiqbalradzuan/solat_tv/issues) for a list of proposed features (and known issues).
 
 <br>
-<br>
-<br>
-<br>
 
+- Phase 1 ``In progress``
+    - To include integration with JAKIM Website and display the current day prayer times.
+    - To add user personalization features
+- Phase 2 ``Not started``
+    - To add interaction with HDMI-CEC whenever time comes for pray
+    - To improve user personalization configuration for HDMI-CEC interaction.
+
+<br>
+<br>
 
 <!-- CONTRIBUTING -->
 # Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+<br>
 
 1. Fork the Project
 2. Create your Feature Branch 
@@ -116,8 +127,8 @@ Contributions are what make the open source community such an amazing place to b
 <!-- LICENSE -->
 # License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
+<br>
+<br>
 <br>
 <br>
 
@@ -126,17 +137,10 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Your Name - Mohd Iqbal Radzuan - mohdiqbalradzuan@gmail.com
 
-Project Link: [https://github.com/mohdiqbalradzuan/solat_tv](https://github.com/mohdiqbalradzuan/solat_tv)
+Project Link: [Github](https://github.com/mohdiqbalradzuan/solat_tv)
 
 <br>
 <br>
-
-<!-- ACKNOWLEDGEMENTS -->
-# Acknowledgements
-
-* []()
-* []()
-* []()
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
