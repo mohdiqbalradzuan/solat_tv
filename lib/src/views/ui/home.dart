@@ -13,7 +13,7 @@ class Home extends StatelessWidget {
             children: [
               Align(
                 child: new Image.asset(
-                  'assets/images/mosque_icon.png',
+                  'assets/images/logo.png',
                   height: 200,
                   width: 200,
                 ),
