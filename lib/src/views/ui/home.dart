@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:solat_tv/src/views/ui/widget/change_theme_switch.dart';
-import 'dashboard.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -43,9 +42,8 @@ class _HomeState extends State<Home> {
               Align(
                 child: ElevatedButton(
                   child: Text('Go to dashboard'),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Dashboard())).then((_) => setState(() {}));
+                  onPressed: (){
+                    Navigator.of(context).pushNamed('/dashboard').then((_) => setState(() {}));
                   },
                 ),
               ),

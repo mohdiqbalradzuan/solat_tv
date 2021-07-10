@@ -4,9 +4,10 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:solat_tv/src/views/utils/provider/theme_provider.dart';
 import 'package:solat_tv/src/globals.dart' as globals;
+
 class SwitchThemeWidget extends StatefulWidget {
   @override
-  _SwitchThemeWidgetState createState() =>
+  State<StatefulWidget> createState() =>
       _SwitchThemeWidgetState();
 }
 
@@ -18,8 +19,8 @@ class _SwitchThemeWidgetState extends State<SwitchThemeWidget> {
     return Positioned(
       width: 70,
       height: 30,
-      top: 20,
-      right: 20,
+      top: globals.switchThemePadding,
+      right: globals.switchThemePadding,
       child: FlutterSwitch(
         width: 60.0,
         height: 30.0,
