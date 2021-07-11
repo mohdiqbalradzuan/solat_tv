@@ -5,6 +5,7 @@ class Dark {
   ThemeData get theme => ThemeData(
         brightness: Brightness.dark,
         primarySwatch: Colors.amber,
+        primaryColor: Colors.amber,
         buttonTheme: ButtonThemeData(),
         fontFamily: GoogleFonts.lato().fontFamily,
         textTheme: TextTheme(

@@ -3,7 +3,7 @@ import 'package:solat_tv/src/views/ui/widget/change_theme_switch.dart';
 
 class Home extends StatefulWidget {
   @override
-  _HomeState createState() =>
+  State<StatefulWidget> createState() =>
       _HomeState();
 }
 

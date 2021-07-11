@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:solat_tv/src/views/ui/widget/change_theme_switch.dart';
 import 'package:solat_tv/src/globals.dart' as globals;
+import 'package:solat_tv/src/views/ui/widget/clock_builder.dart';
 
-class Dashboard extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() =>
-      _DashboardState();
-}
-
-class _DashboardState extends State<Dashboard> {
-  static MediaQueryData _mediaQueryData;
-
+class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    _mediaQueryData = MediaQuery.of(context);
+    MediaQueryData _mediaQueryData = MediaQuery.of(context);
 
     return Scaffold(
       body: Stack(
@@ -26,75 +19,60 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   SizedBox(width: globals.dashboardPadding),
                   Expanded(
-                    flex: 3,
+                    flex: null,
                     child: Container(
-                      height: (_mediaQueryData.size.height - (globals.dashboardPadding * 2)),
+                      width: 390,
+                      height: (_mediaQueryData.size.height -
+                          (globals.dashboardPadding * 2)),
                       padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.fromLTRB(0,0,10,0),
+                      margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(globals.dashboardBorderRadius),
+                        borderRadius: BorderRadius.circular(
+                            globals.dashboardBorderRadius),
                         color: Colors.black12,
                         border: Border.all(
                           color: Colors.white12,
-                          width: 1,
+                          width: 0,
                           style: BorderStyle.solid,
                         ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 5,
-                            blurRadius: 5,
+                            spreadRadius: 2,
+                            blurRadius: 8,
                             offset: Offset(0, 0), // changes position of shadow
                           ),
                         ],
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Align(
-                                child: Text(
-                                  'Waktu sekarang:',
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 40),
-                          Row(
-                            children: [
-                              Align(
-                                child: Text(
-                                  'Clock here:',
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                      child: LayoutBuilder(
+                        builder: (BuildContext context, BoxConstraints box) {
+                          print("LayoutBuilder width: ${box.maxWidth}");
+                          return ClockBuilderWidget(box.maxWidth);
+                        },
                       ),
                     ),
                   ),
                   Expanded(
                     flex: 4,
                     child: Container(
-                        height: (_mediaQueryData.size.height - (globals.dashboardPadding * 2)),
+                      height: (_mediaQueryData.size.height -
+                          (globals.dashboardPadding * 2)),
                       padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.fromLTRB(10,0,0,0),
+                      margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(globals.dashboardBorderRadius),
+                        borderRadius: BorderRadius.circular(
+                            globals.dashboardBorderRadius),
                         color: Colors.black12,
                         border: Border.all(
                           color: Colors.white12,
-                          width: 1,
+                          width: 0,
                           style: BorderStyle.solid,
                         ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 5,
-                            blurRadius: 5,
+                            spreadRadius: 2,
+                            blurRadius: 8,
                             offset: Offset(0, 0), // changes position of shadow
                           ),
                         ],
