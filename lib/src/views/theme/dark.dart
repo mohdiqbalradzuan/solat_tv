@@ -11,5 +11,9 @@ class Dark {
         textTheme: TextTheme(
           headline2: TextStyle(fontWeight: FontWeight.w900),
         ),
+        colorScheme: ColorScheme.dark(
+          primary: Colors.amber,
+          secondary: Colors.red[900],
+        ),
       );
 }
