@@ -104,21 +104,19 @@ class SolatTimerBlocs extends GetxController {
       var now = DateTime.now();
       bool activeTimeChecked = false;
 
-      solatTimes.asMap().forEach((i, e) {
-        if (i != 0) {
-          //print('$i - ${DateFormat('dd-MMM-yyyy HH:mm:ss').format(e)}');
-          if (e.isBefore(now)) {
-            solatTimes[i] = e.add(Duration(days: 1));
-            iqamatTimes[i] = e.add(Duration(days: 1, minutes: 10));
-          } else if (e.isAfter(now) && !activeTimeChecked) {
-            activeSolatIndex = i;
-            //print('Set active solat time to $activeSolatIndex');
+      solatTimes.asMap().forEach((key, value) {
+        if (key != 0 && key != 2) {
+          if (value.isAfter(now) && !activeTimeChecked) {
+            activeSolatIndex = key;
+            //print(('$key - ${DateFormat('dd-MMM-yyyy HH:mm:ss').format(value)} vs  ${DateFormat('dd-MMM-yyyy HH:mm:ss').format(now)}');
+            //print(('Set active solat time to $activeSolatIndex');
             activeTimeChecked = true;
           }
 
-          if (e.hour == now.hour &&
-              e.minute == now.minute &&
-              e.second == now.second) {
+          if (value.hour == now.hour &&
+              value.minute == now.minute &&
+              value.second == now.second) {
+            //print(('Activate azan');
             activateAzanSound = true;
 
             new AudioHelper().playAzan();
@@ -130,8 +128,14 @@ class SolatTimerBlocs extends GetxController {
 
       if (!activeTimeChecked ||
           (00 == now.hour && 00 == now.minute && 00 == now.second)) {
-        //print('Check next day');
-        //print('Check the latest today from JAKIM');
+        //print(('Check next day');
+
+        solatTimes.asMap().forEach((key, value) {
+          solatTimes[key] = value.add(Duration(days: 1, minutes: 10));
+          iqamatTimes[key] = value.add(Duration(days: 1, minutes: 10));
+        });
+
+        //print(('Check the latest today from JAKIM');
         activeSolatIndex = 1;
       }
 
@@ -151,6 +155,6 @@ class SolatTimerBlocs extends GetxController {
   String _printDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    return "${twoDigits(duration.inHours)} hr${(duration.inHours == 1) ? '' : 's'} : $twoDigitMinutes sec${((duration.inMinutes.remainder(60)) == 1) ? '' : 's'}";
+    return "${twoDigits(duration.inHours)} hr${(duration.inHours == 1) ? '' : 's'} : $twoDigitMinutes min${((duration.inMinutes.remainder(60)) == 1) ? '' : 's'}";
   }
 }

@@ -5,6 +5,6 @@ class AudioHelper {
   AudioCache audioCache = AudioCache();
 
   void playAzan() async {
-    audioCache.play('audio/azan_makkah.mp3', mode: PlayerMode.MEDIA_PLAYER);
+    audioCache.play('audio/azan_makkah.mp3');
   }
 }
