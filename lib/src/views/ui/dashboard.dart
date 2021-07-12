@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:solat_tv/src/views/ui/widget/change_theme_switch.dart';
 import 'package:solat_tv/src/globals.dart' as globals;
-import 'package:solat_tv/src/views/ui/widget/clock_builder.dart';
+import 'package:solat_tv/src/views/ui/widget/dashboard_left.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -29,25 +29,25 @@ class Dashboard extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(
                             globals.dashboardBorderRadius),
-                        color: Colors.black12,
                         border: Border.all(
-                          color: Colors.white12,
+                          color: Theme.of(context).cardColor,
                           width: 0,
                           style: BorderStyle.solid,
                         ),
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 2,
-                            blurRadius: 8,
-                            offset: Offset(0, 0), // changes position of shadow
+                            color: Theme.of(context).shadowColor,
+                            spreadRadius: 1,
+                            blurRadius: globals.dashboardBorderRadius,
+                            offset: Offset(1, 1), // changes position of shadow
                           ),
                         ],
                       ),
                       child: LayoutBuilder(
                         builder: (BuildContext context, BoxConstraints box) {
                           print("LayoutBuilder width: ${box.maxWidth}");
-                          return ClockBuilderWidget(box.maxWidth);
+                          return LeftWidget(box.maxWidth);
                         },
                       ),
                     ),
@@ -62,18 +62,19 @@ class Dashboard extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(
                             globals.dashboardBorderRadius),
-                        color: Colors.black12,
+                        //color: Colors.black12,
                         border: Border.all(
-                          color: Colors.white12,
+                          color: Theme.of(context).cardColor,
                           width: 0,
                           style: BorderStyle.solid,
                         ),
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 2,
-                            blurRadius: 8,
-                            offset: Offset(0, 0), // changes position of shadow
+                            color: Theme.of(context).shadowColor,
+                            spreadRadius: 1,
+                            blurRadius: globals.dashboardBorderRadius,
+                            offset: Offset(1, 1), // changes position of shadow
                           ),
                         ],
                       ),

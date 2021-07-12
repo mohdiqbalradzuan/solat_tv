@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hijri/hijri_calendar.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:solat_tv/src/business_logic/blocs/solat_timer_blocs.dart';
 import 'package:solat_tv/src/views/ui/widget/clock_painter.dart';
@@ -39,7 +41,7 @@ class _ClockBuilderWidgetState extends State<ClockBuilderWidget> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Location information here"),
+            SizedBox(height: 20),
             StreamBuilder(
               stream: timerController.currentTime.stream,
               builder: (context, AsyncSnapshot snapshot) {
@@ -47,34 +49,49 @@ class _ClockBuilderWidgetState extends State<ClockBuilderWidget> {
                   '${timerController.formatTime(DateTime.now().hour)}:${timerController.formatTime(DateTime.now().minute)}:${timerController.formatTime(DateTime.now().second)}',
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         fontSize: widget.width / 10.0,
-                        fontWeight: FontWeight.w300,
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).primaryColor,
                       ),
                 );
               },
             ),
+            Text(
+              "${HijriCalendar.now().toFormat("dd MMMM yyyy")}",
+              style: Theme.of(context).textTheme.headline1.copyWith(
+                fontSize: widget.width / 18.0,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            Text(
+              "${DateFormat('dd MMMM yyyy').format(DateTime.now())}",
+              style: Theme.of(context).textTheme.headline1.copyWith(
+                    fontSize: widget.width / 20.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
           ],
         ),
-        SizedBox(height: 40),
+        SizedBox(height: 30),
         StreamBuilder(
           stream: timerController.currentTime.stream,
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
-              return _buildClock();
+              return _buildClock(widget.width * 0.85);
             }
 
-            return _buildClock();
+            return _buildClock(widget.width * 0.85);
           },
         ),
       ],
     );
   }
 
-  Widget _buildClock() {
+  Widget _buildClock(double width) {
     return Stack(
       children: [
         Container(
-          width: widget.width,
-          height: widget.width,
+          width: width,
+          height: width,
           child: Transform.rotate(
             angle: -pi / 2,
             child: CustomPaint(
@@ -83,11 +100,11 @@ class _ClockBuilderWidgetState extends State<ClockBuilderWidget> {
           ),
         ),
         CircularPercentIndicator(
-          radius: widget.width * 1,
+          radius: width * 1,
           lineWidth: 5.0,
           percent: timerController.percent,
-          circularStrokeCap: CircularStrokeCap.square,
-          backgroundColor: Theme.of(context).canvasColor,
+          circularStrokeCap: CircularStrokeCap.round,
+          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
           linearGradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomCenter,
@@ -100,20 +117,6 @@ class _ClockBuilderWidgetState extends State<ClockBuilderWidget> {
           animationDuration: 1000,
           animateFromLastPercent: true,
           rotateLinearGradient: true,
-          // center: Container(
-          //   child: Column(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       Text(
-          //         '${timerController.formatTime(DateTime.now().hour)}:${timerController.formatTime(DateTime.now().minute)}:${timerController.formatTime(DateTime.now().second)}',
-          //         style: Theme.of(context).textTheme.headline1.copyWith(
-          //           fontSize: widget.width / 10.0,
-          //           fontWeight: FontWeight.w400,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         )
       ],
     );

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 class Dark {
   ThemeData get theme => ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.amber,
         primaryColor: Colors.amber,
         buttonTheme: ButtonThemeData(),
         fontFamily: GoogleFonts.lato().fontFamily,

@@ -71,7 +71,7 @@ class ClockPainter extends CustomPainter {
       Paint()
         ..color = Theme.of(context).colorScheme.primary
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 5.0,
+        ..strokeWidth = 6.0,
     );
     // canvas.drawCircle(
     //   Offset(hourX, hourY),
@@ -99,11 +99,15 @@ class ClockPainter extends CustomPainter {
       if ([5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].contains(i) == false) {
         double startX = centerX + size.width * 0.475 * cos((i * 6) * pi / 180);
         double startY = centerY + size.width * 0.475 * sin((i * 6) * pi / 180);
-        double endX = centerX + size.width * 0.49 * cos((i * 6) * pi / 180);
-        double endY = centerY + size.width * 0.49 * sin((i * 6) * pi / 180);
+        double endX = centerX + size.width * 0.485 * cos((i * 6) * pi / 180);
+        double endY = centerY + size.width * 0.485 * sin((i * 6) * pi / 180);
 
-        canvas.drawLine(Offset(startX, startY), Offset(endX, endY),
-            Paint()..color = Theme.of(context).primaryColor);
+        canvas.drawLine(
+            Offset(startX, startY),
+            Offset(endX, endY),
+            Paint()
+              ..color = Theme.of(context).primaryColor
+              ..strokeWidth = 2);
       }
     }
 
@@ -132,12 +136,12 @@ class ClockPainter extends CustomPainter {
           centerY + size.width * 0.49 * sin(e); // * sin((12) * pi / 180);
       // canvas.drawCircle(
       //     Offset(hour12Yy, hour12Xx), 4, Paint()..color = Colors.amber);
-      //
+
       TextSpan span = new TextSpan(
           style: new TextStyle(
             color: [0, 3, 6, 9].contains(i)
                 ? Theme.of(context).primaryColor
-                : Theme.of(context).secondaryHeaderColor,
+                : Theme.of(context).primaryColor.withOpacity(0.5),
             fontSize: [0, 3, 6, 9].contains(i)
                 ? size.width / 22.0
                 : size.width / 28.0,
@@ -163,18 +167,18 @@ class ClockPainter extends CustomPainter {
         Paint()
           ..color = [0, 3, 6, 9].contains(i)
               ? Theme.of(context).primaryColor
-              : Theme.of(context).secondaryHeaderColor
+              : Theme.of(context).primaryColor
           ..style = PaintingStyle.stroke
-          ..strokeWidth = [0, 3, 6, 9].contains(i) ? 2.5 : 1,
+          ..strokeWidth = [0, 3, 6, 9].contains(i) ? 2.5 : 2,
       );
     });
 
     // Center Dots
     Paint dotPainter = Paint()
-      ..color = Theme.of(context).primaryIconTheme.color;
-    canvas.drawCircle(center, 10, dotPainter);
+      ..color = Colors.black;
+    canvas.drawCircle(center, 6, dotPainter..color = Colors.grey);
     canvas.drawCircle(
-        center, 10, Paint()..color = Theme.of(context).backgroundColor);
+        center, 5, Paint()..color = Colors.black);
     // canvas.drawCircle(center, 10, dotPainter);
   }
 

@@ -7,8 +7,7 @@ import 'package:solat_tv/src/globals.dart' as globals;
 
 class SwitchThemeWidget extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() =>
-      _SwitchThemeWidgetState();
+  State<StatefulWidget> createState() => _SwitchThemeWidgetState();
 }
 
 class _SwitchThemeWidgetState extends State<SwitchThemeWidget> {
@@ -29,7 +28,7 @@ class _SwitchThemeWidgetState extends State<SwitchThemeWidget> {
         borderRadius: 30.0,
         padding: 4.0,
         activeToggleColor: Colors.black,
-        inactiveToggleColor: Colors.white,
+        inactiveToggleColor: Colors.amber,
         activeSwitchBorder: Border.all(
           color: Colors.black26,
           width: 1.0,
@@ -39,14 +38,14 @@ class _SwitchThemeWidgetState extends State<SwitchThemeWidget> {
           width: 1.0,
         ),
         activeColor: Colors.black26,
-        inactiveColor: Colors.amber[50],
+        inactiveColor: Colors.white,
         activeIcon: Icon(
           Icons.nightlight_round,
           color: Colors.amber[400],
         ),
         inactiveIcon: Icon(
           Icons.wb_sunny,
-          color: Colors.amber[400],
+          color: Colors.white,
         ),
         onToggle: (value) {
           final provider = Provider.of<ThemeProvider>(context, listen: false);
