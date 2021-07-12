@@ -9,32 +9,34 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:solat_tv/src/business_logic/blocs/solat_timer_blocs.dart';
 import 'package:solat_tv/src/views/ui/widget/clock_painter.dart';
 
-class ClockBuilderWidget extends StatefulWidget {
+class AzanClockWidget extends StatefulWidget {
   final double width;
 
-  ClockBuilderWidget(this.width);
+  AzanClockWidget(this.width);
 
   @override
-  State<StatefulWidget> createState() => _ClockBuilderWidgetState();
+  State<StatefulWidget> createState() => _AzanClockWidgetState();
 }
 
-class _ClockBuilderWidgetState extends State<ClockBuilderWidget> {
+class _AzanClockWidgetState extends State<AzanClockWidget> {
   final timerController = Get.put(SolatTimerBlocs());
 
   @override
   void initState() {
-    timerController.startTimer();
+    timerController.startClockTimer();
     super.initState();
   }
 
   @override
   void dispose() {
-    timerController.stopTimer();
+    timerController.startClockTimer();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    var now = DateTime.now();
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -45,8 +47,10 @@ class _ClockBuilderWidgetState extends State<ClockBuilderWidget> {
             StreamBuilder(
               stream: timerController.currentTime.stream,
               builder: (context, AsyncSnapshot snapshot) {
+                var now = DateTime.now();
+
                 return Text(
-                  '${timerController.formatTime(DateTime.now().hour)}:${timerController.formatTime(DateTime.now().minute)}:${timerController.formatTime(DateTime.now().second)}',
+                  '${DateFormat('EEEE').format(now)} - ${timerController.showTime('HH:mm:ss', now)}',
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         fontSize: widget.width / 10.0,
                         fontWeight: FontWeight.w700,
@@ -56,14 +60,14 @@ class _ClockBuilderWidgetState extends State<ClockBuilderWidget> {
               },
             ),
             Text(
-              "${HijriCalendar.now().toFormat("dd MMMM yyyy")}",
+              '${HijriCalendar.now().toFormat('dd MMMM yyyy')}',
               style: Theme.of(context).textTheme.headline1.copyWith(
-                fontSize: widget.width / 18.0,
-                fontWeight: FontWeight.w700,
-              ),
+                    fontSize: widget.width / 18.0,
+                    fontWeight: FontWeight.w700,
+                  ),
             ),
             Text(
-              "${DateFormat('dd MMMM yyyy').format(DateTime.now())}",
+              '${DateFormat('dd MMMM yyyy').format(now)}',
               style: Theme.of(context).textTheme.headline1.copyWith(
                     fontSize: widget.width / 20.0,
                     fontWeight: FontWeight.w700,
@@ -75,10 +79,6 @@ class _ClockBuilderWidgetState extends State<ClockBuilderWidget> {
         StreamBuilder(
           stream: timerController.currentTime.stream,
           builder: (context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              return _buildClock(widget.width * 0.85);
-            }
-
             return _buildClock(widget.width * 0.85);
           },
         ),

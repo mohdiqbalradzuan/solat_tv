@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:solat_tv/src/views/ui/widget/clock_builder.dart';
+import 'package:solat_tv/src/views/ui/widget/azan_clock.dart';
 
 class LeftWidget extends StatefulWidget {
   final double width;
@@ -22,7 +22,7 @@ class _LeftState extends State<LeftWidget> {
   @override
   void initState() {
     _getLastKnownPosition();
-    //super.initState();
+    super.initState();
   }
 
   @override
@@ -36,8 +36,8 @@ class _LeftState extends State<LeftWidget> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-            "${currentAddress == null ? "Initializing...." : "${currentAddress.subLocality}, ${currentAddress.locality}, ${currentAddress.countryCode}"}"),
-        ClockBuilderWidget(widget.width),
+            '${currentAddress == null ? 'Initializing....' : '${currentAddress.subLocality}, ${currentAddress.locality}, ${currentAddress.countryCode}'}'),
+        AzanClockWidget(widget.width),
       ],
     );
   }
@@ -53,11 +53,11 @@ class _LeftState extends State<LeftWidget> {
       }),
     );
 
-    final coordinates = new Coordinates(3.204946, 101.689958);
+    final coordinates = new Coordinates(latitude != null ? latitude : 3.204946, longitude != null ? longitude : 101.689958);
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     if (addresses.length > 0 && addresses != null) {
-      print("${addresses.first.subLocality} - ${addresses.first.locality}");
+      //print('${addresses.first.subLocality} - ${addresses.first.locality}');
       currentAddress = addresses.first;
     }
   }
