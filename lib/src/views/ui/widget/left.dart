@@ -57,7 +57,7 @@ class _LeftState extends State<LeftWidget> {
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     if (addresses.length > 0 && addresses != null) {
-      //print('${addresses.first.subLocality} - ${addresses.first.locality}');
+      ////print('${addresses.first.subLocality} - ${addresses.first.locality}');
       currentAddress = addresses.first;
     }
   }

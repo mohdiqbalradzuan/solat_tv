@@ -19,8 +19,8 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
 
   int activeIndex = 0;
   double tableHeaderFontRatio = 18.0;
-  double activeFontRatio = 18.0;
-  double inactiveFontRatio = 24.0;
+  double activeFontRatio = 15.0;
+  double inactiveFontRatio = 22.0;
 
   @override
   void initState() {
@@ -40,6 +40,7 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
       stream: timerController.currentTime.stream,
       builder: (context, AsyncSnapshot snapshot) {
         activeIndex = timerController.activeSolatIndex;
+
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -48,15 +49,7 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  'Next prayer call: ',
-                  style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: widget.width / 28,
-                        fontWeight: FontWeight.w700,
-                      ),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'Countdown',
+                  '${timerController.countdownText}',
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         fontSize: widget.width / 10.0,
                         fontWeight: FontWeight.w700,
@@ -143,396 +136,72 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
             ),
           ],
         ),
-        TableRow(
-          children: [
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Text(
-                  'Subuh',
-                  style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: widget.width /
-                            ((activeIndex == 0)
-                                ? activeFontRatio
-                                : inactiveFontRatio),
-                        fontWeight: FontWeight.w700,
-                        color: (activeIndex == 0)
-                            ? Theme.of(context).primaryColor
-                            : null,
-                      ),
-                ),
-              ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
+        for (var loop in [1, 2, 3, 4, 5, 6])
+          TableRow(
+            children: [
+              TableCell(
+                verticalAlignment: TableCellVerticalAlignment.middle,
+                child: Container(
+                  padding: EdgeInsets.all(globals.tablePadding),
                   child: Text(
-                    '${DateFormat('HH:mm').format(timerController.solatTimes[0])}',
+                    '${timerController.solatSchedules[loop]['name']}',
                     style: Theme.of(context).textTheme.headline1.copyWith(
                           fontSize: widget.width /
-                              ((activeIndex == 0)
+                              ((activeIndex == loop)
                                   ? activeFontRatio
                                   : inactiveFontRatio),
                           fontWeight: FontWeight.w700,
-                          color: (activeIndex == 0)
+                          color: (activeIndex == loop)
                               ? Theme.of(context).primaryColor
                               : null,
                         ),
                   ),
                 ),
               ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
-                  child: Text(
-                    '${DateFormat('HH:mm').format(timerController.iqamatTimes[0])}',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: widget.width /
-                              ((activeIndex == 0)
-                                  ? activeFontRatio
-                                  : inactiveFontRatio),
-                          fontWeight: FontWeight.w700,
-                          color: (activeIndex == 0)
-                              ? Theme.of(context).primaryColor
-                              : null,
-                        ),
+              TableCell(
+                verticalAlignment: TableCellVerticalAlignment.middle,
+                child: Container(
+                  padding: EdgeInsets.all(globals.tablePadding),
+                  child: Center(
+                    child: Text(
+                      '${DateFormat('HH:mm').format(timerController.solatTimes[loop])}',
+                      style: Theme.of(context).textTheme.headline1.copyWith(
+                            fontSize: widget.width /
+                                ((activeIndex == loop)
+                                    ? activeFontRatio
+                                    : inactiveFontRatio),
+                            fontWeight: FontWeight.w700,
+                            color: (activeIndex == loop)
+                                ? Theme.of(context).primaryColor
+                                : null,
+                          ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Text(
-                  'Syuruk',
-                  style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: widget.width /
-                            ((activeIndex == 1)
-                                ? activeFontRatio
-                                : inactiveFontRatio),
-                        fontWeight: FontWeight.w700,
-                        color: (activeIndex == 1)
-                            ? Theme.of(context).primaryColor
-                            : null,
-                      ),
-                ),
-              ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
-                  child: Text(
-                    '${DateFormat('HH:mm').format(timerController.solatTimes[1])}',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: widget.width /
-                              ((activeIndex == 1)
-                                  ? activeFontRatio
-                                  : inactiveFontRatio),
-                          fontWeight: FontWeight.w700,
-                          color: (activeIndex == 1)
-                              ? Theme.of(context).primaryColor
-                              : null,
-                        ),
+              TableCell(
+                verticalAlignment: TableCellVerticalAlignment.middle,
+                child: Container(
+                  padding: EdgeInsets.all(globals.tablePadding),
+                  child: Center(
+                    child: Text(
+                      '${DateFormat('HH:mm').format(timerController.iqamatTimes[loop])}',
+                      style: Theme.of(context).textTheme.headline1.copyWith(
+                            fontSize: widget.width /
+                                ((activeIndex == loop)
+                                    ? activeFontRatio
+                                    : inactiveFontRatio),
+                            fontWeight: FontWeight.w700,
+                            color: (activeIndex == loop)
+                                ? Theme.of(context).primaryColor
+                                : null,
+                          ),
+                    ),
                   ),
                 ),
               ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
-                  child: Text(
-                    '${DateFormat('HH:mm').format(timerController.iqamatTimes[1])}',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: widget.width /
-                              ((activeIndex == 1)
-                                  ? activeFontRatio
-                                  : inactiveFontRatio),
-                          fontWeight: FontWeight.w700,
-                          color: (activeIndex == 1)
-                              ? Theme.of(context).primaryColor
-                              : null,
-                        ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Text(
-                  'Zuhur',
-                  style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: widget.width /
-                            ((activeIndex == 2)
-                                ? activeFontRatio
-                                : inactiveFontRatio),
-                        fontWeight: FontWeight.w700,
-                        color: (activeIndex == 2)
-                            ? Theme.of(context).primaryColor
-                            : null,
-                      ),
-                ),
-              ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
-                  child: Text(
-                    '${DateFormat('HH:mm').format(timerController.solatTimes[2])}',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: widget.width /
-                              ((activeIndex == 2)
-                                  ? activeFontRatio
-                                  : inactiveFontRatio),
-                          fontWeight: FontWeight.w700,
-                          color: (activeIndex == 2)
-                              ? Theme.of(context).primaryColor
-                              : null,
-                        ),
-                  ),
-                ),
-              ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
-                  child: Text(
-                    '${DateFormat('HH:mm').format(timerController.iqamatTimes[2])}',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: widget.width /
-                              ((activeIndex == 2)
-                                  ? activeFontRatio
-                                  : inactiveFontRatio),
-                          fontWeight: FontWeight.w700,
-                          color: (activeIndex == 2)
-                              ? Theme.of(context).primaryColor
-                              : null,
-                        ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Text(
-                  'Asar',
-                  style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: widget.width /
-                            ((activeIndex == 3)
-                                ? activeFontRatio
-                                : inactiveFontRatio),
-                        fontWeight: FontWeight.w700,
-                        color: (activeIndex == 3)
-                            ? Theme.of(context).primaryColor
-                            : null,
-                      ),
-                ),
-              ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
-                  child: Text(
-                    '${DateFormat('HH:mm').format(timerController.solatTimes[3])}',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: widget.width /
-                              ((activeIndex == 3)
-                                  ? activeFontRatio
-                                  : inactiveFontRatio),
-                          fontWeight: FontWeight.w700,
-                          color: (activeIndex == 3)
-                              ? Theme.of(context).primaryColor
-                              : null,
-                        ),
-                  ),
-                ),
-              ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
-                  child: Text(
-                    '${DateFormat('HH:mm').format(timerController.iqamatTimes[4])}',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: widget.width /
-                              ((activeIndex == 3)
-                                  ? activeFontRatio
-                                  : inactiveFontRatio),
-                          fontWeight: FontWeight.w700,
-                          color: (activeIndex == 3)
-                              ? Theme.of(context).primaryColor
-                              : null,
-                        ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Text(
-                  'Maghrib',
-                  style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: widget.width /
-                            ((activeIndex == 4)
-                                ? activeFontRatio
-                                : inactiveFontRatio),
-                        fontWeight: FontWeight.w700,
-                        color: (activeIndex == 4)
-                            ? Theme.of(context).primaryColor
-                            : null,
-                      ),
-                ),
-              ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
-                  child: Text(
-                    '${DateFormat('HH:mm').format(timerController.solatTimes[5])}',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: widget.width /
-                              ((activeIndex == 4)
-                                  ? activeFontRatio
-                                  : inactiveFontRatio),
-                          fontWeight: FontWeight.w700,
-                          color: (activeIndex == 4)
-                              ? Theme.of(context).primaryColor
-                              : null,
-                        ),
-                  ),
-                ),
-              ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
-                  child: Text(
-                    '${DateFormat('HH:mm').format(timerController.iqamatTimes[5])}',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: widget.width /
-                              ((activeIndex == 4)
-                                  ? activeFontRatio
-                                  : inactiveFontRatio),
-                          fontWeight: FontWeight.w700,
-                          color: (activeIndex == 4)
-                              ? Theme.of(context).primaryColor
-                              : null,
-                        ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Text(
-                  'Isyak',
-                  style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: widget.width /
-                            ((activeIndex == 5)
-                                ? activeFontRatio
-                                : inactiveFontRatio),
-                        fontWeight: FontWeight.w700,
-                        color: (activeIndex == 5)
-                            ? Theme.of(context).primaryColor
-                            : null,
-                      ),
-                ),
-              ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
-                  child: Text(
-                    '${DateFormat('HH:mm').format(timerController.solatTimes[6])}',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: widget.width /
-                              ((activeIndex == 6)
-                                  ? activeFontRatio
-                                  : inactiveFontRatio),
-                          fontWeight: FontWeight.w700,
-                          color: (activeIndex == 6)
-                              ? Theme.of(context).primaryColor
-                              : null,
-                        ),
-                  ),
-                ),
-              ),
-            ),
-            TableCell(
-              verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Container(
-                padding: EdgeInsets.all(globals.tablePadding),
-                child: Center(
-                  child: Text(
-                    '${DateFormat('HH:mm').format(timerController.iqamatTimes[6])}',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: widget.width /
-                              ((activeIndex == 6)
-                                  ? activeFontRatio
-                                  : inactiveFontRatio),
-                          fontWeight: FontWeight.w700,
-                          color: (activeIndex == 6)
-                              ? Theme.of(context).primaryColor
-                              : null,
-                        ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+            ],
+          ),
       ],
     );
   }

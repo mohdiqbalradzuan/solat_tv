@@ -84,26 +84,6 @@ class Dashboard extends StatelessWidget {
                             return RightWidget(box.maxWidth);
                           }
                       ),
-
-                      // Column(
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   children: [
-                      //     Column(
-                      //       children: [
-                      //         Align(
-                      //           child: ElevatedButton(
-                      //             child: Text('Back to home page'),
-                      //             onPressed: () {
-                      //               Navigator.of(context)
-                      //                   .pushNamedAndRemoveUntil('/home',
-                      //                       ModalRoute.withName('/home'));
-                      //             },
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ],
-                      // ),
                     ),
                   ),
                   SizedBox(width: globals.dashboardPadding),
