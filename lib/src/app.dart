@@ -17,7 +17,7 @@ class SolatTvApp extends StatelessWidget {
             themeMode: themeProvider.themeMode,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
-            home: Dashboard(),
+            home: Home(),
             routes: <String, WidgetBuilder>{
               '/home': (BuildContext context) => new Home(),
               '/dashboard': (BuildContext context) => new Dashboard(),

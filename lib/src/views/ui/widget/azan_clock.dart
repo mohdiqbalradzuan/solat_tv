@@ -52,7 +52,7 @@ class _AzanClockWidgetState extends State<AzanClockWidget> {
                 return Text(
                   '${DateFormat('EEEE').format(now)} - ${this._timerController.showTime('HH:mm:ss', now)}',
                   style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: widget._width / 10.0,
+                        fontSize: widget._width / 12.0,
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).primaryColor,
                       ),

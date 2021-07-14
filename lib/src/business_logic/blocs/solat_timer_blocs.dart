@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:solat_tv/globals.dart' as globals;
 
 import 'package:intl/intl.dart';
+import 'package:solat_tv/src/business_logic/services/api_services/get_solat_time_jakim.dart';
 
 class SolatTimerBlocs extends GetxController {
   StreamController<DateTime> currentTime =
@@ -159,7 +160,7 @@ class SolatTimerBlocs extends GetxController {
           if (value.isAfter(now) && !activeTimeChecked) {
             activeSolatIndex = key;
             //print('$key - ${DateFormat('dd-MMM-yyyy HH:mm:ss').format(value)} vs  ${DateFormat('dd-MMM-yyyy HH:mm:ss').format(now)}');
-            print('$now Set active solat time to $activeSolatIndex');
+            //print('$now Set active solat time to $activeSolatIndex');
             activeTimeChecked = true;
           }
 
@@ -195,6 +196,12 @@ class SolatTimerBlocs extends GetxController {
       countdownText =
           this._validateDuration(solatTimes[activeSolatIndex].difference(now));
 
+      // Get today data from Jakim
+      if (now.hour == 00 && now.minute == 5) {
+        GetSolatTimeJakim solatProvider = new GetSolatTimeJakim();
+        solatProvider.getTimeFromSource();
+      }
+
       update();
     });
   }
@@ -218,6 +225,7 @@ class SolatTimerBlocs extends GetxController {
 
       return 'Waiting for azan...';
     } else if (showWarning) {
+      Bringtoforeground.bringAppToForeground();
       return 'Azan $solatNowName 🕋';
     } else {
       String twoDigits(int n) => n.toString().padLeft(2, "0");

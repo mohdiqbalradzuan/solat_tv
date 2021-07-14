@@ -42,6 +42,7 @@ dependencies:
   bringtoforeground: ^0.0.2
   shared_preferences: ^2.0.6
   http: ^0.13.3
+  flutter_native_splash: ^1.1.8+4
 
 dev_dependencies:
   flutter_test:
@@ -97,3 +98,5 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/icon/icon.png"
+
+## Once done, please execute this command flutter pub run flutter_native_splash:create --path=/flutter_native_splash.yaml
