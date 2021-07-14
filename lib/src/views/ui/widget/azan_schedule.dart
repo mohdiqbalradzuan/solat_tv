@@ -21,6 +21,7 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
   double tableHeaderFontRatio = 18.0;
   double activeFontRatio = 15.0;
   double inactiveFontRatio = 22.0;
+  bool showWarning = false;
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
       stream: timerController.currentTime.stream,
       builder: (context, AsyncSnapshot snapshot) {
         activeIndex = timerController.activeSolatIndex;
+        showWarning = timerController.showWarning;
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -51,20 +53,76 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
                 Text(
                   '${timerController.countdownText}',
                   style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: widget.width / 10.0,
+                        fontSize: widget.width / 15.0,
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).primaryColor,
                       ),
                 ),
-                SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
+                SizedBox(height: 10),
+                Opacity(
+                  child: Text(
+                    'to ${timerController.solatSchedules[activeIndex]['name']}',
+                    style: Theme.of(context).textTheme.headline1.copyWith(
+                      fontSize: widget.width / 20.0,
+                      fontWeight: FontWeight.w700,
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(3)),
                   ),
-                  child: _createTable(),
+                  opacity: !showWarning ? 1.0 : 0.0,
+                ),
+                SizedBox(height: 20),
+                IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            AnimatedOpacity(
+                              // If the widget is visible, animate to 0.0 (invisible).
+                              // If the widget is hidden, animate to 1.0 (fully visible).
+                              opacity: showWarning ? 1.0 : 0.0,
+                              duration: Duration(milliseconds: 500),
+                              // The green box must be a child of the AnimatedOpacity widget.
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).disabledColor,
+                                  border: Border.all(
+                                    width: 1,
+                                  ),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(3)),
+                                ),
+                                child: Center(
+                                  child: new Image.asset(
+                                    'assets/images/no-phone.png',
+                                    height: 200,
+                                    width: 200,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            AnimatedOpacity(
+                              // If the widget is visible, animate to 0.0 (invisible).
+                              // If the widget is hidden, animate to 1.0 (fully visible).
+                              opacity: !showWarning ? 1.0 : 0.0,
+                              duration: Duration(milliseconds: 500),
+                              // The green box must be a child of the AnimatedOpacity widget.
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                  ),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(3)),
+                                ),
+                                child: _createTable(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

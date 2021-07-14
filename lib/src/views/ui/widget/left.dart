@@ -57,7 +57,9 @@ class _LeftState extends State<LeftWidget> {
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     if (addresses.length > 0 && addresses != null) {
-      currentAddress = addresses.first;
+      setState(() {
+        currentAddress = addresses.first;
+      });
     }
   }
 }

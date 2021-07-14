@@ -39,6 +39,7 @@ dependencies:
   geocoder: ^0.2.1
   hijri: ^3.0.0
   audioplayers: ^0.19.1
+  bringtoforeground: ^0.0.2
 
 dev_dependencies:
   flutter_test:
@@ -59,8 +60,11 @@ flutter:
   assets:
      - assets/images/logo.png
      - assets/images/map_bg.png
+     - assets/images/no-phone.png
+     - assets/images/snooze.png
      - assets/audio/azan_madinah.mp3
      - assets/audio/azan_makkah.mp3
+     - assets/audio/alert.wav
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

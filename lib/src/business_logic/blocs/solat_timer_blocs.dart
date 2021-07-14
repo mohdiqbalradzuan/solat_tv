@@ -1,14 +1,21 @@
+import 'package:audioplayers/audioplayers.dart';
+import 'package:bringtoforeground/bringtoforeground.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
 import 'package:intl/intl.dart';
-import 'package:solat_tv/src/business_logic/services/audio_services/audio_helper.dart';
 
 class SolatTimerBlocs extends GetxController {
   StreamController<DateTime> currentTime =
       StreamController<DateTime>.broadcast();
   ScrollController scrollController = new ScrollController();
+
+  AudioPlayer azanPlayer;
+  AudioCache azanPlayerCache;
+
+  AudioPlayer alertPlayer;
+  AudioCache alertPlayerCache;
 
   Timer clockTimer;
   bool isClockTimerRunning = false;
@@ -19,22 +26,36 @@ class SolatTimerBlocs extends GetxController {
   double percent = .0;
   int activeSolatIndex = 0;
   bool activateAzanSound = false;
+  bool showWarning = false;
   String countdownText = '';
+  String solatNowName = '';
 
   var solatSchedules = {
     0: {'name': 'Imsak', 'hour': 5, 'minute': 49},
     1: {'name': 'Subuh', 'hour': 5, 'minute': 59},
     2: {'name': 'Syuruk', 'hour': 7, 'minute': 10},
-    3: {'name': 'Zuhur', 'hour': 13, 'minute': 23},
-    4: {'name': 'Asar', 'hour': 16, 'minute': 46},
-    5: {'name': 'Maghrib', 'hour': 19, 'minute': 31},
-    6: {'name': 'Isyak', 'hour': 20, 'minute': 45},
+    3: {'name': 'Zuhur', 'hour': 8, 'minute': 40},
+    4: {'name': 'Asar', 'hour': 16, 'minute': 47},
+    5: {'name': 'Maghrib', 'hour': 19, 'minute': 58},
+    6: {'name': 'Isyak', 'hour': 20, 'minute': 06},
   };
 
   List<DateTime> solatTimes;
   List<DateTime> iqamatTimes;
 
   SolatTimerBlocs() {
+    azanPlayer = AudioPlayer();
+    azanPlayerCache = AudioCache(fixedPlayer: azanPlayer);
+
+    alertPlayer = AudioPlayer();
+    alertPlayerCache = AudioCache(fixedPlayer: alertPlayer);
+
+    azanPlayer.onPlayerCompletion.listen((event) {
+      //print('Player audio complete');
+      showWarning = false;
+      update();
+    });
+
     solatTimes = [
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
           solatSchedules[0]['hour'], solatSchedules[0]['minute']),
@@ -108,18 +129,21 @@ class SolatTimerBlocs extends GetxController {
         if (key != 0 && key != 2) {
           if (value.isAfter(now) && !activeTimeChecked) {
             activeSolatIndex = key;
-            //print(('$key - ${DateFormat('dd-MMM-yyyy HH:mm:ss').format(value)} vs  ${DateFormat('dd-MMM-yyyy HH:mm:ss').format(now)}');
-            //print(('Set active solat time to $activeSolatIndex');
+            //print('$key - ${DateFormat('dd-MMM-yyyy HH:mm:ss').format(value)} vs  ${DateFormat('dd-MMM-yyyy HH:mm:ss').format(now)}');
+            print('$now Set active solat time to $activeSolatIndex');
             activeTimeChecked = true;
           }
 
           if (value.hour == now.hour &&
               value.minute == now.minute &&
               value.second == now.second) {
-            //print(('Activate azan');
+            solatNowName = solatSchedules[key]['name'];
             activateAzanSound = true;
 
-            new AudioHelper().playAzan();
+            //print('Activate azan');
+            Bringtoforeground.bringAppToForeground();
+            azanPlayerCache.play('audio/azan_makkah.mp3', volume: 1.0);
+
           } else {
             activateAzanSound = false;
           }
@@ -128,19 +152,19 @@ class SolatTimerBlocs extends GetxController {
 
       if (!activeTimeChecked ||
           (00 == now.hour && 00 == now.minute && 00 == now.second)) {
-        //print(('Check next day');
+        //print('Check next day');
 
         solatTimes.asMap().forEach((key, value) {
           solatTimes[key] = value.add(Duration(days: 1, minutes: 10));
           iqamatTimes[key] = value.add(Duration(days: 1, minutes: 10));
         });
 
-        //print(('Check the latest today from JAKIM');
+        //print('Check the latest today from JAKIM');
         activeSolatIndex = 1;
       }
 
       countdownText =
-          _printDuration(solatTimes[activeSolatIndex].difference(now));
+          _validateDuration(solatTimes[activeSolatIndex].difference(now));
 
       update();
     });
@@ -152,9 +176,24 @@ class SolatTimerBlocs extends GetxController {
     update();
   }
 
-  String _printDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    return "${twoDigits(duration.inHours)} hr${(duration.inHours == 1) ? '' : 's'} : $twoDigitMinutes min${((duration.inMinutes.remainder(60)) == 1) ? '' : 's'}";
+  String _validateDuration(Duration duration) {
+    if (duration < Duration(seconds: 30)) {
+      Bringtoforeground.bringAppToForeground();
+      alertPlayerCache.play('audio/alert.wav');
+
+      return 'Waiting for azan...';
+    } else if (duration < Duration(minutes: 1)) {
+      Bringtoforeground.bringAppToForeground();
+      showWarning = true;
+
+      return 'Waiting for azan...';
+    } else if (showWarning) {
+      return 'Azan $solatNowName 🕋';
+    } else {
+      String twoDigits(int n) => n.toString().padLeft(2, "0");
+      String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+
+      return "${twoDigits(duration.inHours)} hr${(duration.inHours == 1) ? '' : 's'} : $twoDigitMinutes min${((duration.inMinutes.remainder(60)) == 1) ? '' : 's'}";
+    }
   }
 }
