@@ -10,26 +10,26 @@ import 'package:solat_tv/src/business_logic/blocs/solat_timer_blocs.dart';
 import 'package:solat_tv/src/views/ui/widget/clock_painter.dart';
 
 class AzanClockWidget extends StatefulWidget {
-  final double width;
+  final double _width;
 
-  AzanClockWidget(this.width);
+  AzanClockWidget(this._width);
 
   @override
   State<StatefulWidget> createState() => _AzanClockWidgetState();
 }
 
 class _AzanClockWidgetState extends State<AzanClockWidget> {
-  final timerController = Get.put(SolatTimerBlocs());
+  final _timerController = Get.put(SolatTimerBlocs());
 
   @override
   void initState() {
-    timerController.startClockTimer();
+    this._timerController.startClockTimer();
     super.initState();
   }
 
   @override
   void dispose() {
-    timerController.startClockTimer();
+    this._timerController.startClockTimer();
     super.dispose();
   }
 
@@ -45,14 +45,14 @@ class _AzanClockWidgetState extends State<AzanClockWidget> {
           children: [
             SizedBox(height: 20),
             StreamBuilder(
-              stream: timerController.currentTime.stream,
+              stream: this._timerController.currentTime.stream,
               builder: (context, AsyncSnapshot snapshot) {
                 var now = DateTime.now();
 
                 return Text(
-                  '${DateFormat('EEEE').format(now)} - ${timerController.showTime('HH:mm:ss', now)}',
+                  '${DateFormat('EEEE').format(now)} - ${this._timerController.showTime('HH:mm:ss', now)}',
                   style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: widget.width / 10.0,
+                        fontSize: widget._width / 10.0,
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).primaryColor,
                       ),
@@ -62,14 +62,14 @@ class _AzanClockWidgetState extends State<AzanClockWidget> {
             Text(
               '${HijriCalendar.now().toFormat('dd MMMM yyyy')}',
               style: Theme.of(context).textTheme.headline1.copyWith(
-                    fontSize: widget.width / 18.0,
+                    fontSize: widget._width / 18.0,
                     fontWeight: FontWeight.w700,
                   ),
             ),
             Text(
               '${DateFormat('dd MMMM yyyy').format(now)}',
               style: Theme.of(context).textTheme.headline1.copyWith(
-                    fontSize: widget.width / 20.0,
+                    fontSize: widget._width / 20.0,
                     fontWeight: FontWeight.w700,
                   ),
             ),
@@ -77,9 +77,9 @@ class _AzanClockWidgetState extends State<AzanClockWidget> {
         ),
         SizedBox(height: 30),
         StreamBuilder(
-          stream: timerController.currentTime.stream,
+          stream: this._timerController.currentTime.stream,
           builder: (context, AsyncSnapshot snapshot) {
-            return _buildClock(widget.width * 0.85);
+            return _buildClock(widget._width * 0.85);
           },
         ),
       ],
@@ -102,7 +102,7 @@ class _AzanClockWidgetState extends State<AzanClockWidget> {
         CircularPercentIndicator(
           radius: width * 1,
           lineWidth: 5.0,
-          percent: timerController.percent,
+          percent: this._timerController.percent,
           circularStrokeCap: CircularStrokeCap.round,
           backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
           linearGradient: LinearGradient(

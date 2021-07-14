@@ -15,11 +15,6 @@ class _SwitchThemeWidgetState extends State<SwitchThemeWidget> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   bool _isDarkMode = globals.isDarkMode;
 
-  Future<void> _changeTheme(isDarkMode) async {
-    final SharedPreferences prefs = await _prefs;
-    prefs.setBool('isDarkMode', isDarkMode);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -31,7 +26,7 @@ class _SwitchThemeWidgetState extends State<SwitchThemeWidget> {
         width: 60.0,
         height: 30.0,
         toggleSize: 25.0,
-        value: _isDarkMode,
+        value: this._isDarkMode,
         borderRadius: 30.0,
         padding: 4.0,
         activeToggleColor: Colors.black,
@@ -58,12 +53,17 @@ class _SwitchThemeWidgetState extends State<SwitchThemeWidget> {
           final provider = Provider.of<ThemeProvider>(context, listen: false);
           provider.toggleTheme(value);
           setState(() {
-            _isDarkMode = value;
-            _changeTheme(_isDarkMode);
+            this._isDarkMode = value;
+            _changeTheme(this._isDarkMode);
             globals.isDarkMode = value;
           });
         },
       ),
     );
+  }
+
+  Future<void> _changeTheme(isDarkMode) async {
+    final SharedPreferences prefs = await this._prefs;
+    prefs.setBool('isDarkMode', isDarkMode);
   }
 }

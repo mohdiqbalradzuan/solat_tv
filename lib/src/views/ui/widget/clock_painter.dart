@@ -2,12 +2,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class ClockPainter extends CustomPainter {
-  final BuildContext context;
-  final DateTime dateTime;
+  final BuildContext _context;
+  final DateTime _dateTime;
 
-  ClockPainter(this.context, this.dateTime);
+  ClockPainter(this._context, this._dateTime);
 
-  List<double> clockOffset = [
+  List<double> _clockOffset = [
     pi / 2,
     pi / 3,
     pi / 6,
@@ -30,16 +30,16 @@ class ClockPainter extends CustomPainter {
 
     // Minute Calculation
     double minX =
-        centerX + size.width * 0.35 * cos((dateTime.minute * 6) * pi / 180);
+        centerX + size.width * 0.35 * cos((this._dateTime.minute * 6) * pi / 180);
     double minY =
-        centerY + size.width * 0.35 * sin((dateTime.minute * 6) * pi / 180);
+        centerY + size.width * 0.35 * sin((this._dateTime.minute * 6) * pi / 180);
 
     //Minute Line
     canvas.drawLine(
       center,
       Offset(minX, minY),
       Paint()
-        ..color = Theme.of(context).colorScheme.secondary
+        ..color = Theme.of(this._context).colorScheme.secondary
         ..style = PaintingStyle.stroke
         ..strokeWidth = 5,
     );
@@ -58,18 +58,18 @@ class ClockPainter extends CustomPainter {
     double hourX = centerX +
         size.width *
             0.225 *
-            cos((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
+            cos((this._dateTime.hour * 30 + this._dateTime.minute * 0.5) * pi / 180);
     double hourY = centerY +
         size.width *
             0.225 *
-            sin((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
+            sin((this._dateTime.hour * 30 + this._dateTime.minute * 0.5) * pi / 180);
 
     // hour Line
     canvas.drawLine(
       center,
       Offset(hourX, hourY),
       Paint()
-        ..color = Theme.of(context).colorScheme.primary
+        ..color = Theme.of(this._context).colorScheme.primary
         ..style = PaintingStyle.stroke
         ..strokeWidth = 6.0,
     );
@@ -106,14 +106,14 @@ class ClockPainter extends CustomPainter {
             Offset(startX, startY),
             Offset(endX, endY),
             Paint()
-              ..color = Theme.of(context).primaryColor
+              ..color = Theme.of(this._context).primaryColor
               ..strokeWidth = 2);
       }
     }
 
     // Draw time,
     // 12h
-    clockOffset.asMap().forEach((i, e) {
+    this._clockOffset.asMap().forEach((i, e) {
       double hour12XText =
           centerX + size.width * .4 * cos(e); // * cos((12 * 30) * pi / 180);
       double hour12YText =
@@ -140,8 +140,8 @@ class ClockPainter extends CustomPainter {
       TextSpan span = new TextSpan(
           style: new TextStyle(
             color: [0, 3, 6, 9].contains(i)
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).primaryColor.withOpacity(0.5),
+                ? Theme.of(this._context).primaryColor
+                : Theme.of(this._context).primaryColor.withOpacity(0.5),
             fontSize: [0, 3, 6, 9].contains(i)
                 ? size.width / 22.0
                 : size.width / 28.0,
@@ -166,8 +166,8 @@ class ClockPainter extends CustomPainter {
         Offset(hour12Yy, hour12Xx),
         Paint()
           ..color = [0, 3, 6, 9].contains(i)
-              ? Theme.of(context).primaryColor
-              : Theme.of(context).primaryColor
+              ? Theme.of(this._context).primaryColor
+              : Theme.of(this._context).primaryColor
           ..style = PaintingStyle.stroke
           ..strokeWidth = [0, 3, 6, 9].contains(i) ? 2.5 : 2,
       );

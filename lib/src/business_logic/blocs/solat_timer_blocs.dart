@@ -32,13 +32,41 @@ class SolatTimerBlocs extends GetxController {
   String solatNowName = '';
 
   var solatSchedules = {
-    0: {'name': 'Imsak', 'hour': 5, 'minute': 49},
-    1: {'name': 'Subuh', 'hour': 5, 'minute': 59},
-    2: {'name': 'Syuruk', 'hour': 7, 'minute': 10},
-    3: {'name': 'Zuhur', 'hour': 8, 'minute': 40},
-    4: {'name': 'Asar', 'hour': 16, 'minute': 47},
-    5: {'name': 'Maghrib', 'hour': 19, 'minute': 58},
-    6: {'name': 'Isyak', 'hour': 20, 'minute': 06},
+    0: {
+      'name': 'Imsak',
+      'hour': globals.imsak.hour,
+      'minute': globals.imsak.minute
+    },
+    1: {
+      'name': 'Subuh',
+      'hour': globals.subuh.hour,
+      'minute': globals.subuh.minute
+    },
+    2: {
+      'name': 'Syuruk',
+      'hour': globals.syuruk.hour,
+      'minute': globals.syuruk.minute
+    },
+    3: {
+      'name': 'Zuhur',
+      'hour': globals.zuhur.hour,
+      'minute': globals.zuhur.minute
+    },
+    4: {
+      'name': 'Asar',
+      'hour': globals.asar.hour,
+      'minute': globals.asar.minute
+    },
+    5: {
+      'name': 'Maghrib',
+      'hour': globals.maghrib.hour,
+      'minute': globals.maghrib.minute
+    },
+    6: {
+      'name': 'Isyak',
+      'hour': globals.isyak.hour,
+      'minute': globals.isyak.minute
+    },
   };
 
   List<DateTime> solatTimes;
@@ -144,7 +172,6 @@ class SolatTimerBlocs extends GetxController {
             //print('Activate azan');
             Bringtoforeground.bringAppToForeground();
             azanPlayerCache.play('audio/azan_makkah.mp3', volume: 1.0);
-
           } else {
             activateAzanSound = false;
           }
@@ -157,7 +184,8 @@ class SolatTimerBlocs extends GetxController {
 
         solatTimes.asMap().forEach((key, value) {
           solatTimes[key] = value.add(Duration(days: 1));
-          iqamatTimes[key] = value.add(Duration(days: 1, seconds: globals.durationForIqamatBuffer));
+          iqamatTimes[key] = value
+              .add(Duration(days: 1, seconds: globals.durationForIqamatBuffer));
         });
 
         //print('Check the latest today from JAKIM');
@@ -165,7 +193,7 @@ class SolatTimerBlocs extends GetxController {
       }
 
       countdownText =
-          _validateDuration(solatTimes[activeSolatIndex].difference(now));
+          this._validateDuration(solatTimes[activeSolatIndex].difference(now));
 
       update();
     });
@@ -183,7 +211,8 @@ class SolatTimerBlocs extends GetxController {
       alertPlayerCache.play('audio/alert.wav');
 
       return 'Waiting for azan...';
-    } else if (duration < Duration(seconds: globals.durationForWaitingForAzan)) {
+    } else if (duration <
+        Duration(seconds: globals.durationForWaitingForAzan)) {
       Bringtoforeground.bringAppToForeground();
       showWarning = true;
 

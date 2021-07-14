@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:solat_tv/src/views/ui/widget/azan_clock.dart';
+import 'package:solat_tv/globals.dart' as globals;
 
 class LeftWidget extends StatefulWidget {
-  final double width;
+  final double _width;
 
-  LeftWidget(this.width);
+  LeftWidget(this._width);
 
   @override
   State<StatefulWidget> createState() => _LeftState();
 }
 
 class _LeftState extends State<LeftWidget> {
-  String coordinateString;
-  double latitude;
-  double longitude;
-  Address currentAddress;
+  double _latitude;
+  double _longitude;
+  Address _currentAddress;
 
   @override
   void initState() {
@@ -36,8 +36,8 @@ class _LeftState extends State<LeftWidget> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-            '${currentAddress == null ? 'Initializing....' : '${currentAddress.subLocality}, ${currentAddress.locality}, ${currentAddress.countryCode}'}'),
-        AzanClockWidget(widget.width),
+            '${this._currentAddress == null ? 'Initializing....' : '${this._currentAddress.subLocality}, ${this._currentAddress.locality}, ${this._currentAddress.countryCode}'}'),
+        AzanClockWidget(widget._width),
       ],
     );
   }
@@ -46,19 +46,19 @@ class _LeftState extends State<LeftWidget> {
     await Geolocator.getLastKnownPosition().then(
       (value) => setState(() {
         if (value != null) {
-          coordinateString = value.toString();
-          latitude = value.latitude;
-          longitude = value.longitude;
+          this._latitude = value.latitude;
+          this._longitude = value.longitude;
         }
       }),
     );
 
-    final coordinates = new Coordinates(latitude != null ? latitude : 3.204946, longitude != null ? longitude : 101.689958);
+    var coordinates = new Coordinates(this._latitude != null ? this._latitude : globals.defaultLat, this._longitude != null ? this._longitude : globals.defaultLong);
+
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     if (addresses.length > 0 && addresses != null) {
       setState(() {
-        currentAddress = addresses.first;
+        this._currentAddress = addresses.first;
       });
     }
   }

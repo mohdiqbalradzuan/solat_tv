@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:solat_tv/src/views/ui/widget/azan_schedule.dart';
 
 class RightWidget extends StatefulWidget {
-  final double width;
+  final double _width;
 
-  RightWidget(this.width);
+  RightWidget(this._width);
 
   @override
   State<StatefulWidget> createState() => _RightState();
@@ -27,7 +27,7 @@ class _RightState extends State<RightWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        AzanScheduleWidget(widget.width),
+        AzanScheduleWidget(widget._width),
       ],
     );
   }
