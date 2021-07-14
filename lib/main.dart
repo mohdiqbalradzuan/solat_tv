@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solat_tv/src/app.dart';
 import 'package:solat_tv/globals.dart' as globals;
@@ -31,12 +32,25 @@ Future<void> main() async {
         globals.isyak = TimeOfDay(hour: prefs.getInt('isyak_hour') ?? 0, minute: prefs.getInt('isyak_minute') ?? 0);
       }
 
+      await FlutterLogs.initLogs(
+          logLevelsEnabled: [
+            LogLevel.INFO,
+            LogLevel.WARNING,
+            LogLevel.ERROR,
+            LogLevel.SEVERE
+          ],
+          logSystemCrashes: true,
+          timeStampFormat: TimeStampFormat.TIME_FORMAT_READABLE,
+          directoryStructure: DirectoryStructure.FOR_DATE,
+          logTypesEnabled: ["device","network","errors"],
+          logFileExtension: LogFileExtension.LOG,
+          logsWriteDirectoryName: "solat_tv_logs",
+          logsExportDirectoryName: "solat_tv_logs/exported",
+          debugFileOperations: true,
+          isDebuggable: true);
+
       runApp(SolatTvApp());
     },
     (error, st) => print(error),
   );
 }
-
-// void main() {
-//   runApp(SolatTvApp());
-// }

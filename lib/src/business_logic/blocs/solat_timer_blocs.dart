@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bringtoforeground/bringtoforeground.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:solat_tv/globals.dart' as globals;
@@ -196,8 +197,12 @@ class SolatTimerBlocs extends GetxController {
       countdownText =
           this._validateDuration(solatTimes[activeSolatIndex].difference(now));
 
-      // Get today data from Jakim
+      // Get today data from Jakim every 00:05
       if (now.hour == 00 && now.minute == 5) {
+        // print('Get latest data from solat time provider');
+        FlutterLogs.logInfo(runtimeType.toString(), 'startScheduleTimer 00:05',
+            'Get latest data from solat time provider');
+
         GetSolatTimeJakim solatProvider = new GetSolatTimeJakim();
         solatProvider.getTimeFromSource();
       }
@@ -228,10 +233,10 @@ class SolatTimerBlocs extends GetxController {
       Bringtoforeground.bringAppToForeground();
       return 'Azan $solatNowName 🕋';
     } else {
-      String twoDigits(int n) => n.toString().padLeft(2, "0");
+      String twoDigits(int n) => n.toString().padLeft(2, '0');
       String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
 
-      return "${twoDigits(duration.inHours)} hr${(duration.inHours == 1) ? '' : 's'} : $twoDigitMinutes min${((duration.inMinutes.remainder(60)) == 1) ? '' : 's'}";
+      return '${twoDigits(duration.inHours)} hr${(duration.inHours == 1) ? '' : 's'} : $twoDigitMinutes min${((duration.inMinutes.remainder(60)) == 1) ? '' : 's'}';
     }
   }
 }

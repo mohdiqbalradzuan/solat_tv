@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solat_tv/src/business_logic/models/solat_time_jakim.dart';
 import 'package:solat_tv/src/business_logic/services/api_services/get_solat_time.dart';
@@ -11,8 +12,16 @@ class GetSolatTimeJakim implements GetSolatTime {
 
   @override
   Future<void> getTimeFromSource() async {
-    final response =
-        await http.get(Uri.parse('https://www.e-solat.gov.my/index.php?r=esolatApi/takwimsolat&period=week&zone=${globals.defaultZone}'));
+    FlutterLogs.logInfo(runtimeType.toString(), 'getTimeFromSource',
+        'Getting data from JAKIM service: ${'https://www.e-solat.gov.my/index.php?r=esolatApi/takwimsolat&period=week&zone=${globals.defaultZone}'}');
+
+    final response = await http.get(Uri.parse(
+        'https://www.e-solat.gov.my/index.php?r=esolatApi/takwimsolat&period=week&zone=${globals.defaultZone}'));
+
+    FlutterLogs.logInfo(runtimeType.toString(), 'getTimeFromSource',
+        'Response code from JAKIM service: ${response.statusCode}');
+    FlutterLogs.logInfo(runtimeType.toString(), 'getTimeFromSource',
+        'Response data: ${json.decode(response.body)['prayerTime']}');
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -37,11 +46,14 @@ class GetSolatTimeJakim implements GetSolatTime {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
+      FlutterLogs.logError(runtimeType.toString(), 'getTimeFromSource',
+          'Failed to load data from JAKIM');
       throw Exception('Failed to load data from JAKIM');
     }
   }
 
-  Future<void> _updateSolatTimeToConfig(DailySolatTimeModelJakim solatTime) async {
+  Future<void> _updateSolatTimeToConfig(
+      DailySolatTimeModelJakim solatTime) async {
     final SharedPreferences prefs = await this._prefs;
     globals.imsak = solatTime.imsak;
     globals.subuh = solatTime.subuh;
