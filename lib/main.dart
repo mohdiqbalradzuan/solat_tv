@@ -23,6 +23,8 @@ Future<void> main() async {
         globals.durationForIqamatBuffer =
             prefs.getInt('durationForWaitingForAzan') ?? 600;
 
+        globals.defaultZone = prefs.getString('defaultZone') ?? 'WLY01';
+
         globals.imsak = TimeOfDay(hour: prefs.getInt('imsak_hour') ?? 0, minute: prefs.getInt('imsak_minute') ?? 0);
         globals.subuh = TimeOfDay(hour: prefs.getInt('subuh_hour') ?? 0, minute: prefs.getInt('subuh_minute') ?? 0);
         globals.syuruk = TimeOfDay(hour: prefs.getInt('syuruk_hour') ?? 0, minute: prefs.getInt('syuruk_minute') ?? 0);

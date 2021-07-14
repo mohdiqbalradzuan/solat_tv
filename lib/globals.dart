@@ -18,7 +18,7 @@ int durationForIqamatBuffer = 600;
 double defaultLat = 3.204946;
 double defaultLong = 101.689958;
 
-String defaultZone = 'WLY01';
+String defaultZone = '';
 
 TimeOfDay imsak = TimeOfDay(hour: 0, minute: 0);
 TimeOfDay subuh = TimeOfDay(hour: 0, minute: 0);
