@@ -3,6 +3,7 @@ import 'package:bringtoforeground/bringtoforeground.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
+import 'package:solat_tv/globals.dart' as globals;
 
 import 'package:intl/intl.dart';
 
@@ -76,25 +77,25 @@ class SolatTimerBlocs extends GetxController {
     iqamatTimes = [
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
               solatSchedules[0]['hour'], solatSchedules[0]['minute'])
-          .add(const Duration(minutes: 10)),
+          .add(Duration(seconds: globals.durationForIqamatBuffer)),
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
               solatSchedules[1]['hour'], solatSchedules[1]['minute'])
-          .add(const Duration(minutes: 10)),
+          .add(Duration(seconds: globals.durationForIqamatBuffer)),
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
               solatSchedules[2]['hour'], solatSchedules[2]['minute'])
-          .add(const Duration(minutes: 10)),
+          .add(Duration(seconds: globals.durationForIqamatBuffer)),
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
               solatSchedules[3]['hour'], solatSchedules[3]['minute'])
-          .add(const Duration(minutes: 10)),
+          .add(Duration(seconds: globals.durationForIqamatBuffer)),
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
               solatSchedules[4]['hour'], solatSchedules[4]['minute'])
-          .add(const Duration(minutes: 10)),
+          .add(Duration(seconds: globals.durationForIqamatBuffer)),
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
               solatSchedules[5]['hour'], solatSchedules[5]['minute'])
-          .add(const Duration(minutes: 10)),
+          .add(Duration(seconds: globals.durationForIqamatBuffer)),
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
               solatSchedules[6]['hour'], solatSchedules[6]['minute'])
-          .add(const Duration(minutes: 10)),
+          .add(Duration(seconds: globals.durationForIqamatBuffer)),
     ];
   }
 
@@ -155,8 +156,8 @@ class SolatTimerBlocs extends GetxController {
         //print('Check next day');
 
         solatTimes.asMap().forEach((key, value) {
-          solatTimes[key] = value.add(Duration(days: 1, minutes: 10));
-          iqamatTimes[key] = value.add(Duration(days: 1, minutes: 10));
+          solatTimes[key] = value.add(Duration(days: 1));
+          iqamatTimes[key] = value.add(Duration(days: 1, seconds: globals.durationForIqamatBuffer));
         });
 
         //print('Check the latest today from JAKIM');
@@ -177,12 +178,12 @@ class SolatTimerBlocs extends GetxController {
   }
 
   String _validateDuration(Duration duration) {
-    if (duration < Duration(seconds: 30)) {
+    if (duration < Duration(seconds: globals.durationForAlertForAzan)) {
       Bringtoforeground.bringAppToForeground();
       alertPlayerCache.play('audio/alert.wav');
 
       return 'Waiting for azan...';
-    } else if (duration < Duration(minutes: 1)) {
+    } else if (duration < Duration(seconds: globals.durationForWaitingForAzan)) {
       Bringtoforeground.bringAppToForeground();
       showWarning = true;
 

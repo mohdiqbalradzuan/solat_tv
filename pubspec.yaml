@@ -40,6 +40,7 @@ dependencies:
   hijri: ^3.0.0
   audioplayers: ^0.19.1
   bringtoforeground: ^0.0.2
+  shared_preferences: ^2.0.6
 
 dev_dependencies:
   flutter_test:

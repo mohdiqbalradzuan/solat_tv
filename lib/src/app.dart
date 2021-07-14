@@ -4,11 +4,6 @@ import 'package:solat_tv/src/views/theme/app_theme.dart';
 import 'package:solat_tv/src/views/ui/dashboard.dart';
 import 'package:solat_tv/src/views/ui/home.dart';
 import 'package:solat_tv/src/views/utils/provider/theme_provider.dart';
-import 'globals.dart' as globals;
-
-main() {
-  globals.isDarkMode = true;
-}
 
 class SolatTvApp extends StatelessWidget {
   @override

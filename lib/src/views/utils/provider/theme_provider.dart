@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:solat_tv/globals.dart' as globals;
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode themeMode = ThemeMode.dark;
+  ThemeMode themeMode = globals.isDarkMode ? ThemeMode.dark : ThemeMode.system;
 
   bool get isDarkMode {
     if (themeMode == ThemeMode.system) {

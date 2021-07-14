@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:solat_tv/src/business_logic/blocs/solat_timer_blocs.dart';
-import 'package:solat_tv/src/globals.dart' as globals;
+import 'package:solat_tv/globals.dart' as globals;
 
 class AzanScheduleWidget extends StatefulWidget {
   final double width;
