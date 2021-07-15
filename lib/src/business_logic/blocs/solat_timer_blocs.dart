@@ -79,19 +79,19 @@ class SolatTimerBlocs extends GetxController {
   List<DateTime> iqamatTimes;
 
   SolatTimerBlocs() {
-    azanPlayer = AudioPlayer();
-    azanPlayerCache = AudioCache(fixedPlayer: azanPlayer);
+    this.azanPlayer = AudioPlayer();
+    this.azanPlayerCache = AudioCache(fixedPlayer: azanPlayer);
 
-    alertPlayer = AudioPlayer();
-    alertPlayerCache = AudioCache(fixedPlayer: alertPlayer);
+    this.alertPlayer = AudioPlayer();
+    this.alertPlayerCache = AudioCache(fixedPlayer: alertPlayer);
 
-    azanPlayer.onPlayerCompletion.listen((event) {
+    this.azanPlayer.onPlayerCompletion.listen((event) {
       //print('Player audio complete');
-      showWarning = false;
+      this.showWarning = false;
       update();
     });
 
-    solatTimes = [
+    this.solatTimes = [
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
           solatSchedules[0]['hour'], solatSchedules[0]['minute']),
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
@@ -108,7 +108,7 @@ class SolatTimerBlocs extends GetxController {
           solatSchedules[6]['hour'], solatSchedules[6]['minute']),
     ];
 
-    iqamatTimes = [
+    this.iqamatTimes = [
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
               solatSchedules[0]['hour'], solatSchedules[0]['minute'])
           .add(Duration(seconds: globals.durationForIqamatBuffer)),
@@ -138,32 +138,32 @@ class SolatTimerBlocs extends GetxController {
   }
 
   startClockTimer() {
-    isClockTimerRunning = true;
+    this.isClockTimerRunning = true;
     update();
 
-    clockTimer = Timer.periodic(Duration(milliseconds: 1000), (timer) {
+    this.clockTimer = Timer.periodic(Duration(milliseconds: 1000), (timer) {
       currentTime.add(DateTime.now());
-      percent = DateTime.now().second / 60.0;
+      this.percent = DateTime.now().second / 60.0;
 
       update();
     });
   }
 
   stopClockTimer() {
-    clockTimer.cancel();
-    isClockTimerRunning = false;
+    this.clockTimer.cancel();
+    this.isClockTimerRunning = false;
 
     update();
   }
 
   startScheduleTimer() {
-    isScheduleTimerRunning = true;
+    this.isScheduleTimerRunning = true;
     update();
-    scheduleTimer = Timer.periodic(Duration(milliseconds: 1000), (timer) {
+    this.scheduleTimer = Timer.periodic(Duration(milliseconds: 1000), (timer) {
       var now = DateTime.now();
       bool activeTimeChecked = false;
 
-      solatTimes.asMap().forEach((key, value) {
+      this.solatTimes.asMap().forEach((key, value) {
         if (key != 0 && key != 2) {
           if (value.isAfter(now) && !activeTimeChecked) {
             activeSolatIndex = key;
@@ -176,14 +176,18 @@ class SolatTimerBlocs extends GetxController {
           if (value.hour == now.hour &&
               value.minute == now.minute &&
               value.second == now.second) {
-            nowSolatName = solatSchedules[key]['name'];
-            showReminder = true;
-            activateAzanSound = true;
+            this.nowSolatName = this.solatSchedules[key]['name'];
+
+            this.activateAzanSound = true;
 
             Bringtoforeground.bringAppToForeground();
-            azanPlayerCache.play('audio/azan_makkah.mp3', volume: 1.0);
+            this.alertPlayer.stop();
+            this.azanPlayerCache.play('audio/azan_makkah.mp3', volume: 1.0);
+
+            this.showReminder = true;
+            this.startReminderTimer();
           } else {
-            activateAzanSound = false;
+            this.activateAzanSound = false;
           }
         }
       });
@@ -192,18 +196,18 @@ class SolatTimerBlocs extends GetxController {
           (00 == now.hour && 00 == now.minute && 00 == now.second)) {
         //print('Check next day');
 
-        solatTimes.asMap().forEach((key, value) {
-          solatTimes[key] = value.add(Duration(days: 1));
-          iqamatTimes[key] = value
+        this.solatTimes.asMap().forEach((key, value) {
+          this.solatTimes[key] = value.add(Duration(days: 1));
+          this.iqamatTimes[key] = value
               .add(Duration(days: 1, seconds: globals.durationForIqamatBuffer));
         });
 
         //print('Check the latest today from JAKIM');
-        activeSolatIndex = 1;
+        this.activeSolatIndex = 1;
       }
 
-      countdownText =
-          this._validateDuration(solatTimes[activeSolatIndex].difference(now));
+      countdownText = this._validateDuration(
+          this.solatTimes[this.activeSolatIndex].difference(now));
 
       // Get today data from Jakim every 00:05
       if (now.hour == 00 && now.minute == 5) {
@@ -220,29 +224,32 @@ class SolatTimerBlocs extends GetxController {
   }
 
   stopScheduleTimer() {
-    scheduleTimer.cancel();
-    isScheduleTimerRunning = true;
+    this.scheduleTimer.cancel();
+    this.isScheduleTimerRunning = true;
 
     update();
   }
 
   startReminderTimer() {
-    isReminderTimerRunning = false;
+    this.isReminderTimerRunning = false;
     update();
 
-    reminderTimer = Timer.periodic(Duration(seconds: 5), (timer) {
-      Bringtoforeground.bringAppToForeground();
-      alertPlayerCache.play('audio/alert.wav');
-      showReminder = true;
-      update();
+    this.reminderTimer = Timer.periodic(
+        Duration(seconds: globals.durationForReminderBuffer), (timer) {
+      if (this.showReminder) {
+        this.showReminder = true;
+        Bringtoforeground.bringAppToForeground();
+        this.alertPlayerCache.loop('audio/alert.wav');
+        update();
+      }
     });
   }
 
   stopReminderTimer() {
-    reminderTimer.cancel();
-    showReminder = false;
-    alertPlayer.stop();
-    isReminderTimerRunning = false;
+    this.reminderTimer.cancel();
+    this.showReminder = false;
+    this.alertPlayer.stop();
+    this.isReminderTimerRunning = false;
 
     update();
   }
@@ -250,18 +257,18 @@ class SolatTimerBlocs extends GetxController {
   String _validateDuration(Duration duration) {
     if (duration < Duration(seconds: globals.durationForAlertForAzan)) {
       Bringtoforeground.bringAppToForeground();
-      alertPlayerCache.play('audio/alert.wav');
+      this.alertPlayerCache.loop('audio/alert.wav');
 
       return 'Waiting for azan...';
     } else if (duration <
         Duration(seconds: globals.durationForWaitingForAzan)) {
       Bringtoforeground.bringAppToForeground();
-      showWarning = true;
+      this.showWarning = true;
 
       return 'Waiting for azan...';
-    } else if (showWarning) {
+    } else if (this.showWarning) {
       Bringtoforeground.bringAppToForeground();
-      return 'Azan $nowSolatName 🕋';
+      return 'Azan ${this.nowSolatName} 🕋';
     } else {
       String twoDigits(int n) => n.toString().padLeft(2, '0');
       String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));

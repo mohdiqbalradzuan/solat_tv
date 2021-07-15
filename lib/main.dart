@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:solat_tv/src/app.dart';
 import 'package:solat_tv/globals.dart' as globals;
 
@@ -50,6 +51,8 @@ Future<void> main() async {
           logsExportDirectoryName: "solat_tv_logs/exported",
           debugFileOperations: true,
           isDebuggable: true);
+
+      Wakelock.enable();
 
       runApp(SolatTvApp());
     },
