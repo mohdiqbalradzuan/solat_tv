@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:solat_tv/src/business_logic/blocs/solat_timer_blocs.dart';
+import 'package:screen_state/screen_state.dart';
 import 'package:solat_tv/globals.dart' as globals;
+import 'package:solat_tv/src/business_logic/blocs/solat_timer_blocs.dart';
 
 class AzanScheduleWidget extends StatefulWidget {
   final double _width;
@@ -26,9 +29,15 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
   double _activeFontRatio = 15.0;
   double _inactiveFontRatio = 22.0;
 
+  Screen _screen = Screen();
+  StreamSubscription<ScreenStateEvent> _subscription;
+  bool screenStateEventStreamStarted = false;
+  ScreenStateEvent currentScreenState;
+
   @override
   void initState() {
     this._timerController.startScheduleTimer();
+    this._startScreenStateListening();
     super.initState();
   }
 
@@ -36,6 +45,7 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
   void dispose() {
     this._timerController.stopScheduleTimer();
     this._timerController.stopReminderTimer();
+    this._stopScreenStateListening();
     super.dispose();
   }
 
@@ -118,7 +128,8 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
                                               .textTheme
                                               .headline1
                                               .copyWith(
-                                                color: Theme.of(context).primaryColor,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
                                                 fontSize: widget._width / 20.0,
                                                 fontWeight: FontWeight.w700,
                                               ),
@@ -127,8 +138,12 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
                                         ElevatedButton(
                                           onPressed: () {
                                             setState(() {
-                                               this._timerController.stopReminderTimer();
-                                               this._showReminder = this._timerController.showReminder;
+                                              this
+                                                  ._timerController
+                                                  .stopReminderTimer();
+                                              this._showReminder = this
+                                                  ._timerController
+                                                  .showReminder;
                                             });
                                           },
                                           child: const Text('Yes'),
@@ -326,5 +341,25 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
           ),
       ],
     );
+  }
+
+  void _onScreenStateData(ScreenStateEvent event) {
+    this.currentScreenState = event;
+    setState(() {
+      this._timerController.updateScreenState(event);
+    });
+  }
+
+  void _startScreenStateListening() {
+    try {
+      this._subscription =
+          this._screen.screenStateStream.listen(_onScreenStateData);
+      setState(() => this.screenStateEventStreamStarted = true);
+    } on ScreenStateException catch (exception) {}
+  }
+
+  void _stopScreenStateListening() {
+    _subscription.cancel();
+    setState(() => this.screenStateEventStreamStarted = false);
   }
 }

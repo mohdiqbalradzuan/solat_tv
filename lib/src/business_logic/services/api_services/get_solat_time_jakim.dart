@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:solat_tv/globals.dart' as globals;
 import 'package:solat_tv/src/business_logic/models/solat_time_jakim.dart';
 import 'package:solat_tv/src/business_logic/services/api_services/get_solat_time.dart';
-import 'package:http/http.dart' as http;
-import 'package:solat_tv/globals.dart' as globals;
 
 class GetSolatTimeJakim implements GetSolatTime {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();

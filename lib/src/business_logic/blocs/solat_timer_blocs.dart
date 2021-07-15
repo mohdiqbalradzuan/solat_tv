@@ -1,15 +1,19 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bringtoforeground/bringtoforeground.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:get/get.dart';
-import 'dart:async';
-import 'package:solat_tv/globals.dart' as globals;
-
 import 'package:intl/intl.dart';
+import 'package:screen_state/screen_state.dart';
+import 'package:solat_tv/globals.dart' as globals;
 import 'package:solat_tv/src/business_logic/services/api_services/get_solat_time_jakim.dart';
 
 class SolatTimerBlocs extends GetxController {
+  static const platform = const MethodChannel('samples.flutter.dev/solat_tv');
+
   StreamController<DateTime> currentTime =
       StreamController<DateTime>.broadcast();
   ScrollController scrollController = new ScrollController();
@@ -36,6 +40,8 @@ class SolatTimerBlocs extends GetxController {
   bool showReminder = false;
   String countdownText = '';
   String nowSolatName = '';
+
+  ScreenStateEvent currentScreenState;
 
   var solatSchedules = {
     0: {
@@ -139,6 +145,7 @@ class SolatTimerBlocs extends GetxController {
 
   startClockTimer() {
     this.isClockTimerRunning = true;
+
     update();
 
     this.clockTimer = Timer.periodic(Duration(milliseconds: 1000), (timer) {
@@ -158,7 +165,9 @@ class SolatTimerBlocs extends GetxController {
 
   startScheduleTimer() {
     this.isScheduleTimerRunning = true;
+
     update();
+
     this.scheduleTimer = Timer.periodic(Duration(milliseconds: 1000), (timer) {
       var now = DateTime.now();
       bool activeTimeChecked = false;
@@ -180,7 +189,7 @@ class SolatTimerBlocs extends GetxController {
 
             this.activateAzanSound = true;
 
-            Bringtoforeground.bringAppToForeground();
+            this._wakeScreen();
             this.alertPlayer.stop();
             this.azanPlayerCache.play('audio/azan_makkah.mp3', volume: 1.0);
 
@@ -209,9 +218,11 @@ class SolatTimerBlocs extends GetxController {
           this.solatTimes[this.activeSolatIndex].difference(now));
 
       // Get today data from Jakim every 00:05
-      if (now.hour == 00 && now.minute == 5) {
+      if (now.hour == 00 && now.minute == 5 && now.second == 0) {
         // print('Get latest data from solat time provider');
-        FlutterLogs.logInfo(runtimeType.toString(), 'startScheduleTimer 00:05',
+        FlutterLogs.logInfo(
+            runtimeType.toString(),
+            'startScheduleTimer 00:05:00',
             'Get latest data from solat time provider');
 
         GetSolatTimeJakim solatProvider = new GetSolatTimeJakim();
@@ -231,11 +242,12 @@ class SolatTimerBlocs extends GetxController {
 
   startReminderTimer() {
     this.isReminderTimerRunning = false;
+
     update();
 
     this.reminderTimer = Timer.periodic(
         Duration(seconds: globals.durationForReminderBuffer), (timer) {
-      Bringtoforeground.bringAppToForeground();
+      this._wakeScreen();
 
       if (!this.showReminder) {
         this.showReminder = true;
@@ -255,20 +267,24 @@ class SolatTimerBlocs extends GetxController {
     update();
   }
 
+  updateScreenState(ScreenStateEvent event) {
+    this.currentScreenState = event;
+  }
+
   String _validateDuration(Duration duration) {
     if (duration < Duration(seconds: globals.durationForAlertForAzan)) {
-      Bringtoforeground.bringAppToForeground();
+      this._wakeScreen();
       this.alertPlayerCache.loop('audio/alert.wav');
 
       return 'Waiting for azan...';
     } else if (duration <
         Duration(seconds: globals.durationForWaitingForAzan)) {
-      Bringtoforeground.bringAppToForeground();
+      this._wakeScreen();
       this.showWarning = true;
 
       return 'Waiting for azan...';
     } else if (this.showWarning) {
-      Bringtoforeground.bringAppToForeground();
+      this._wakeScreen();
       return 'Azan ${this.nowSolatName} 🕋';
     } else {
       String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -276,5 +292,27 @@ class SolatTimerBlocs extends GetxController {
 
       return '${twoDigits(duration.inHours)} hr${(duration.inHours == 1) ? '' : 's'} : $twoDigitMinutes min${((duration.inMinutes.remainder(60)) == 1) ? '' : 's'}';
     }
+  }
+
+  _wakeScreen() async {
+    FlutterLogs.logInfo(runtimeType.toString(), '_wakeScreen',
+        '_wakeScreen and checking for screen state ${this.currentScreenState}');
+    print(
+        '_wakeScreen and checking for screen state ${this.currentScreenState}');
+
+    if (this.currentScreenState == ScreenStateEvent.SCREEN_OFF) {
+      print('Screen is ${this.currentScreenState}');
+
+      FlutterLogs.logInfo(runtimeType.toString(), '_wakeScreen',
+          'Screen is ${this.currentScreenState}');
+
+      print('Invoke method postWakeScreen');
+
+      FlutterLogs.logInfo(runtimeType.toString(), '_wakeScreen',
+          'Invoke method postWakeScreen');
+      await platform.invokeMethod('postWakeScreen');
+    }
+
+    Bringtoforeground.bringAppToForeground();
   }
 }
