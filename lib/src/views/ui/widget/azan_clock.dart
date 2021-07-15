@@ -29,7 +29,7 @@ class _AzanClockWidgetState extends State<AzanClockWidget> {
 
   @override
   void dispose() {
-    this._timerController.startClockTimer();
+    this._timerController.stopClockTimer();
     super.dispose();
   }
 

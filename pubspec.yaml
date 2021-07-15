@@ -65,6 +65,7 @@ flutter:
      - assets/images/logo.png
      - assets/images/map_bg.png
      - assets/images/no-phone.png
+     - assets/images/reminder.png
      - assets/audio/azan_madinah.mp3
      - assets/audio/azan_makkah.mp3
      - assets/audio/alert.wav

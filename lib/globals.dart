@@ -14,6 +14,7 @@ bool isDarkMode = true;
 int durationForWaitingForAzan = 60;
 int durationForAlertForAzan = 30;
 int durationForIqamatBuffer = 600;
+int durationForReminderBuffer = 600;
 
 double defaultLat = 3.204946;
 double defaultLong = 101.689958;

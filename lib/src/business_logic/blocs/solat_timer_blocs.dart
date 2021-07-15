@@ -26,12 +26,16 @@ class SolatTimerBlocs extends GetxController {
   Timer scheduleTimer;
   bool isScheduleTimerRunning = false;
 
+  Timer reminderTimer;
+  bool isReminderTimerRunning = false;
+
   double percent = .0;
   int activeSolatIndex = 0;
   bool activateAzanSound = false;
   bool showWarning = false;
+  bool showReminder = false;
   String countdownText = '';
-  String solatNowName = '';
+  String nowSolatName = '';
 
   var solatSchedules = {
     0: {
@@ -136,9 +140,11 @@ class SolatTimerBlocs extends GetxController {
   startClockTimer() {
     isClockTimerRunning = true;
     update();
+
     clockTimer = Timer.periodic(Duration(milliseconds: 1000), (timer) {
       currentTime.add(DateTime.now());
       percent = DateTime.now().second / 60.0;
+
       update();
     });
   }
@@ -146,6 +152,7 @@ class SolatTimerBlocs extends GetxController {
   stopClockTimer() {
     clockTimer.cancel();
     isClockTimerRunning = false;
+
     update();
   }
 
@@ -165,13 +172,14 @@ class SolatTimerBlocs extends GetxController {
             activeTimeChecked = true;
           }
 
+          // Activate azan
           if (value.hour == now.hour &&
               value.minute == now.minute &&
               value.second == now.second) {
-            solatNowName = solatSchedules[key]['name'];
+            nowSolatName = solatSchedules[key]['name'];
+            showReminder = true;
             activateAzanSound = true;
 
-            //print('Activate azan');
             Bringtoforeground.bringAppToForeground();
             azanPlayerCache.play('audio/azan_makkah.mp3', volume: 1.0);
           } else {
@@ -213,7 +221,29 @@ class SolatTimerBlocs extends GetxController {
 
   stopScheduleTimer() {
     scheduleTimer.cancel();
-    isScheduleTimerRunning = false;
+    isScheduleTimerRunning = true;
+
+    update();
+  }
+
+  startReminderTimer() {
+    isReminderTimerRunning = false;
+    update();
+
+    reminderTimer = Timer.periodic(Duration(seconds: 5), (timer) {
+      Bringtoforeground.bringAppToForeground();
+      alertPlayerCache.play('audio/alert.wav');
+      showReminder = true;
+      update();
+    });
+  }
+
+  stopReminderTimer() {
+    reminderTimer.cancel();
+    showReminder = false;
+    alertPlayer.stop();
+    isReminderTimerRunning = false;
+
     update();
   }
 
@@ -231,7 +261,7 @@ class SolatTimerBlocs extends GetxController {
       return 'Waiting for azan...';
     } else if (showWarning) {
       Bringtoforeground.bringAppToForeground();
-      return 'Azan $solatNowName 🕋';
+      return 'Azan $nowSolatName 🕋';
     } else {
       String twoDigits(int n) => n.toString().padLeft(2, '0');
       String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
