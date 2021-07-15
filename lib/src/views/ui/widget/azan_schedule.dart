@@ -29,7 +29,6 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
   @override
   void initState() {
     this._timerController.startScheduleTimer();
-    this._timerController.startReminderTimer();
     super.initState();
   }
 
