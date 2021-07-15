@@ -19,7 +19,7 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
 
   int _activeIndex = 0;
   bool _showWarning = false;
-  bool _showReminder = true;
+  bool _showReminder = false;
 
   String _nowSolatName = '';
   double _tableHeaderFontRatio = 18.0;
@@ -127,7 +127,6 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
                                         SizedBox(height: 20),
                                         ElevatedButton(
                                           onPressed: () {
-                                            print('Press');
                                             setState(() {
                                                this._timerController.stopReminderTimer();
                                                this._showReminder = this._timerController.showReminder;
