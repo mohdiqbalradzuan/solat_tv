@@ -184,7 +184,6 @@ class SolatTimerBlocs extends GetxController {
             this.alertPlayer.stop();
             this.azanPlayerCache.play('audio/azan_makkah.mp3', volume: 1.0);
 
-            this.showReminder = true;
             this.startReminderTimer();
           } else {
             this.activateAzanSound = false;
@@ -236,12 +235,14 @@ class SolatTimerBlocs extends GetxController {
 
     this.reminderTimer = Timer.periodic(
         Duration(seconds: globals.durationForReminderBuffer), (timer) {
-      if (this.showReminder) {
+      Bringtoforeground.bringAppToForeground();
+
+      if (!this.showReminder) {
         this.showReminder = true;
-        Bringtoforeground.bringAppToForeground();
         this.alertPlayerCache.loop('audio/alert.wav');
-        update();
       }
+
+      update();
     });
   }
 
