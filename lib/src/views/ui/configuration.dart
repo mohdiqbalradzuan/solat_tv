@@ -41,7 +41,7 @@ class _ConfigurationState extends State<Configuration> {
                 .values
                 .toList(),
             hint: Text(
-              "  Please choose a your zone code",
+              "  Please choose your zone code",
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontSize: 16,
