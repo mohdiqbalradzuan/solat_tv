@@ -193,15 +193,16 @@ class SolatTimerBlocs extends GetxController {
             this.alertPlayer.stop();
             this.azanPlayerCache.play('audio/azan_makkah.mp3', volume: 1.0);
 
-            this.startReminderTimer();
+            if (globals.enableSolatReminder) {
+              this.startReminderTimer();
+            }
           } else {
             this.activateAzanSound = false;
           }
         }
       });
 
-      if (!activeTimeChecked ||
-          (00 == now.hour && 00 == now.minute && 00 == now.second)) {
+      if (!activeTimeChecked) {
         //print('Check next day');
 
         this.solatTimes.asMap().forEach((key, value) {
@@ -214,6 +215,7 @@ class SolatTimerBlocs extends GetxController {
         this.activeSolatIndex = 1;
       }
 
+      //print('Validate solatTime ${DateFormat('yyyy-MM-dd HH:mm:ss').format(this.solatTimes[this.activeSolatIndex])} vs ${DateFormat('yyyy-MM-dd HH:mm:ss').format(now)}');
       countdownText = this._validateDuration(
           this.solatTimes[this.activeSolatIndex].difference(now));
 
@@ -297,21 +299,21 @@ class SolatTimerBlocs extends GetxController {
   }
 
   _wakeScreen() async {
-    FlutterLogs.logInfo(runtimeType.toString(), '_wakeScreen',
-        '_wakeScreen and checking for screen state ${this.currentScreenState}');
-    print(
-        '_wakeScreen and checking for screen state ${this.currentScreenState}');
+    // FlutterLogs.logInfo(runtimeType.toString(), '_wakeScreen',
+    //     '_wakeScreen and checking for screen state ${this.currentScreenState}');
+    // print(
+    //     '_wakeScreen and checking for screen state ${this.currentScreenState}');
 
     if (this.currentScreenState == ScreenStateEvent.SCREEN_OFF) {
-      print('Screen is ${this.currentScreenState}');
-
-      FlutterLogs.logInfo(runtimeType.toString(), '_wakeScreen',
-          'Screen is ${this.currentScreenState}');
-
-      print('Invoke method postWakeScreen');
-
-      FlutterLogs.logInfo(runtimeType.toString(), '_wakeScreen',
-          'Invoke method postWakeScreen');
+      // print('Screen is ${this.currentScreenState}');
+      //
+      // FlutterLogs.logInfo(runtimeType.toString(), '_wakeScreen',
+      //     'Screen is ${this.currentScreenState}');
+      //
+      // print('Invoke method postWakeScreen');
+      //
+      // FlutterLogs.logInfo(runtimeType.toString(), '_wakeScreen',
+      //     'Invoke method postWakeScreen');
       await platform.invokeMethod('postWakeScreen');
     }
 
