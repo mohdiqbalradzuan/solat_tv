@@ -71,7 +71,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-}git describe --tags --abbrev=0
+}
 
 flutter {
     source '../..'
