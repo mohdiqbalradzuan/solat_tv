@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:solat_tv/globals.dart' as globals;
 import 'package:solat_tv/src/views/ui/widget/change_theme_switch.dart';
 import 'package:solat_tv/src/views/ui/widget/left.dart';
 import 'package:solat_tv/src/views/ui/widget/right.dart';
-import 'package:solat_tv/globals.dart' as globals;
+import 'package:solat_tv/src/views/ui/widget/version_info.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -78,12 +79,10 @@ class Dashboard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child:
-                      LayoutBuilder(
+                      child: LayoutBuilder(
                           builder: (BuildContext context, BoxConstraints box) {
-                            return RightWidget(box.maxWidth);
-                          }
-                      ),
+                        return RightWidget(box.maxWidth);
+                      }),
                     ),
                   ),
                   SizedBox(width: globals.dashboardPadding),
@@ -93,6 +92,7 @@ class Dashboard extends StatelessWidget {
             ],
           ),
           SwitchThemeWidget(),
+          VersionInfoWidget(),
         ],
       ),
     );

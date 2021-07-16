@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 // Fixed
 const double switchThemePadding = 30.0;
+const double versionInfoPadding = 3.0;
 const double dashboardPadding = 20.0;
 const double dashboardBorderRadius = 3.0;
 const double tablePadding = 10.0;
@@ -11,10 +12,10 @@ const double tablePadding = 10.0;
 // Configurable settings
 bool isDarkMode = true;
 
-int durationForWaitingForAzan = 60;
-int durationForAlertForAzan = 30;
-int durationForIqamatBuffer = 600;
-int durationForReminderBuffer = 1800;
+int durationForWaitingForAzan = 60; // in seconds
+int durationForAlertForAzan = 30; // in seconds
+int durationForIqamatBuffer = 600; // in seconds
+int durationForReminderBuffer = 1800; // in seconds
 
 double defaultLat = 3.204946;
 double defaultLong = 101.689958;

@@ -35,6 +35,18 @@ class MainActivity: FlutterActivity() {
                 if (status) {
                     result.success(status)
                 }
+            } else if (call.method == "getGitTag") {
+                val gitTag = getGitTag()
+
+                if (gitTag != "") {
+                    result.success(gitTag)
+                }
+            } else if (call.method == "getGitHash") {
+                val gitHash = getGitHash()
+
+                if (gitHash != "") {
+                    result.success(gitHash)
+                }
             } else {
                 result.notImplemented()
             }
@@ -60,5 +72,19 @@ class MainActivity: FlutterActivity() {
         }
 
         return batteryLevel
+    }
+
+    private fun getGitTag(): String {
+        val gitTag: String
+        gitTag = BuildConfig.GitTag
+
+        return gitTag
+    }
+
+    private fun getGitHash(): String {
+        val gitHash: String
+        gitHash = BuildConfig.GitHash
+
+        return gitHash
     }
 }
