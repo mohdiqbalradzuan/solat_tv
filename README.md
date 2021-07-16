@@ -26,7 +26,7 @@
 <br>
 
 <!-- PROJECT LOGO -->
-<img src="https://github.com/mohdiqbalradzuan/solat_tv/blob/master/assets/images/mosque_icon.png?raw=true" width="100">
+<img src="https://github.com/mohdiqbalradzuan/solat_tv/blob/master/assets/images/logo.png?raw=true" width="100">
 
 <br>
 <br>
