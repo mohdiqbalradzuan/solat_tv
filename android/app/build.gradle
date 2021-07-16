@@ -60,6 +60,7 @@ android {
         versionName "${getGitTag()}-${getGitHash()}"
         buildConfigField "String", "GitHash", "\"${getGitHash()}\""
         buildConfigField "String", "GitTag", "\"${getGitTag()}\""
+        archivesBaseName = "solat-tv-$versionName"
         //multiDexEnabled true
     }
 

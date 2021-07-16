@@ -24,7 +24,7 @@ class _VersionInfoWidgetState extends State<VersionInfoWidget> {
     return Positioned(
       bottom: globals.versionInfoPadding,
       right: globals.switchThemePadding - 12,
-      child: Text('Version info: $gitTag',
+      child: Text('Version info: $gitTag-$gitHash',
           style: TextStyle(
             color: Theme.of(context).secondaryHeaderColor,
             fontSize: 10,
