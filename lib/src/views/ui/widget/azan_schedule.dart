@@ -360,6 +360,5 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
 
   void _stopScreenStateListening() {
     _subscription.cancel();
-    setState(() => this.screenStateEventStreamStarted = false);
   }
 }

@@ -71,15 +71,20 @@ class _HomeState extends State<Home> {
     SharedPreferences prefs = await this._prefs;
 
     if (prefs != null) {
-      if (prefs.getString('defaultZone') == null) {
-        Navigator.of(context)
-            .pushReplacementNamed('/configuration');
-      } else if (prefs.getString('latest_date_sync') != null ||
+      if ((prefs.getString('defaultZone') == '' ||
+              prefs.getString('defaultZone') == null) &&
+          (prefs.getInt('durationForReminderBuffer') == null ||
+              prefs.getInt('durationForReminderBuffer') == 0)) {
+        Navigator.of(context).pushReplacementNamed('/configuration');
+      } else if (prefs.getString('latest_date_sync') == '' ||
+          prefs.getString('latest_date_sync') == null ||
           (prefs.getString('latest_date_sync') !=
               DateFormat('yyyy-MM-dd').format(DateTime.now()))) {
         GetSolatTimeJakim solatProvider = new GetSolatTimeJakim();
-        solatProvider.getTimeFromSource().then((value) => Navigator.of(context)
-            .pushReplacementNamed('/dashboard'));
+        solatProvider.getTimeFromSource().then((value) =>
+            Navigator.of(context).pushReplacementNamed('/dashboard'));
+      } else {
+        Navigator.of(context).pushReplacementNamed('/dashboard');
       }
     }
   }

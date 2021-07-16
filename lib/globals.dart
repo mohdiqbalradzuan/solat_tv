@@ -16,6 +16,7 @@ int durationForWaitingForAzan = 60; // in seconds
 int durationForAlertForAzan = 30; // in seconds
 int durationForIqamatBuffer = 600; // in seconds
 int durationForReminderBuffer = 1800; // in seconds
+bool enableSolatReminder = true;
 
 double defaultLat = 3.204946;
 double defaultLong = 101.689958;

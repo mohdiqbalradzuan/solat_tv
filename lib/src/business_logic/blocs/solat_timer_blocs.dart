@@ -259,7 +259,9 @@ class SolatTimerBlocs extends GetxController {
   }
 
   stopReminderTimer() {
-    this.reminderTimer.cancel();
+    if (this.reminderTimer != null) {
+      this.reminderTimer.cancel();
+    }
     this.showReminder = false;
     this.alertPlayer.stop();
     this.isReminderTimerRunning = false;

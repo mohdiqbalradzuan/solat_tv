@@ -23,6 +23,11 @@ Future<void> main() async {
             prefs.getInt('durationForWaitingForAzan') ?? 30;
         globals.durationForIqamatBuffer =
             prefs.getInt('durationForWaitingForAzan') ?? 600;
+        globals.durationForReminderBuffer =
+            prefs.getInt('durationForReminderBuffer') ?? 600;
+
+        globals.enableSolatReminder =
+            prefs.getBool('enableSolatReminder') ?? true;
 
         globals.defaultZone = prefs.getString('defaultZone') ?? 'WLY01';
 
@@ -59,10 +64,10 @@ Future<void> main() async {
           logSystemCrashes: true,
           timeStampFormat: TimeStampFormat.TIME_FORMAT_READABLE,
           directoryStructure: DirectoryStructure.FOR_DATE,
-          logTypesEnabled: ["device", "network", "errors"],
+          logTypesEnabled: ['device', 'network', 'errors'],
           logFileExtension: LogFileExtension.LOG,
-          logsWriteDirectoryName: "solat_tv_logs",
-          logsExportDirectoryName: "solat_tv_logs/exported",
+          logsWriteDirectoryName: 'solat_tv_logs',
+          logsExportDirectoryName: 'solat_tv_logs/exported',
           debugFileOperations: true,
           isDebuggable: true);
 
