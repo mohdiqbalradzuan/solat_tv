@@ -5,12 +5,12 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:solat_tv/main.dart';
+import 'package:solat_tv/src/business_logic/services/api_services/get_solat_time_jakim.dart';
 
 void main() {
-  testWidgets('Default test', (WidgetTester tester) async {
+  testWidgets('Test Jakim API', (WidgetTester tester) async {
+    GetSolatTimeJakim solatProvider= new GetSolatTimeJakim();
+    solatProvider.getTimeFromSource();
   });
 }
