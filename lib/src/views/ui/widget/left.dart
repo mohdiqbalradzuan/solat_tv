@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:solat_tv/src/views/ui/widget/azan_clock.dart';
 import 'package:solat_tv/globals.dart' as globals;
+import 'package:solat_tv/src/views/ui/widget/azan_clock.dart';
 
 class LeftWidget extends StatefulWidget {
   final double _width;
@@ -52,7 +52,9 @@ class _LeftState extends State<LeftWidget> {
       }),
     );
 
-    var coordinates = new Coordinates(this._latitude != null ? this._latitude : globals.defaultLat, this._longitude != null ? this._longitude : globals.defaultLong);
+    var coordinates = new Coordinates(
+        this._latitude != null ? this._latitude : globals.defaultLat,
+        this._longitude != null ? this._longitude : globals.defaultLong);
 
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);

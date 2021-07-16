@@ -9,5 +9,6 @@ class SolatTimeModel {
   final TimeOfDay maghrib;
   final TimeOfDay isyak;
 
-  SolatTimeModel(this.imsak, this.subuh, this.syuruk, this.zuhur, this.asar, this.maghrib, this.isyak);
+  SolatTimeModel(this.imsak, this.subuh, this.syuruk, this.zuhur, this.asar,
+      this.maghrib, this.isyak);
 }

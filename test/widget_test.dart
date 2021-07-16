@@ -10,7 +10,7 @@ import 'package:solat_tv/src/business_logic/services/api_services/get_solat_time
 
 void main() {
   testWidgets('Test Jakim API', (WidgetTester tester) async {
-    GetSolatTimeJakim solatProvider= new GetSolatTimeJakim();
+    GetSolatTimeJakim solatProvider = new GetSolatTimeJakim();
     solatProvider.getTimeFromSource();
   });
 }

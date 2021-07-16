@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class ClockPainter extends CustomPainter {
@@ -29,10 +30,10 @@ class ClockPainter extends CustomPainter {
     Offset center = Offset(centerX, centerY);
 
     // Minute Calculation
-    double minX =
-        centerX + size.width * 0.35 * cos((this._dateTime.minute * 6) * pi / 180);
-    double minY =
-        centerY + size.width * 0.35 * sin((this._dateTime.minute * 6) * pi / 180);
+    double minX = centerX +
+        size.width * 0.35 * cos((this._dateTime.minute * 6) * pi / 180);
+    double minY = centerY +
+        size.width * 0.35 * sin((this._dateTime.minute * 6) * pi / 180);
 
     //Minute Line
     canvas.drawLine(
@@ -58,11 +59,15 @@ class ClockPainter extends CustomPainter {
     double hourX = centerX +
         size.width *
             0.225 *
-            cos((this._dateTime.hour * 30 + this._dateTime.minute * 0.5) * pi / 180);
+            cos((this._dateTime.hour * 30 + this._dateTime.minute * 0.5) *
+                pi /
+                180);
     double hourY = centerY +
         size.width *
             0.225 *
-            sin((this._dateTime.hour * 30 + this._dateTime.minute * 0.5) * pi / 180);
+            sin((this._dateTime.hour * 30 + this._dateTime.minute * 0.5) *
+                pi /
+                180);
 
     // hour Line
     canvas.drawLine(
@@ -174,11 +179,9 @@ class ClockPainter extends CustomPainter {
     });
 
     // Center Dots
-    Paint dotPainter = Paint()
-      ..color = Colors.black;
+    Paint dotPainter = Paint()..color = Colors.black;
     canvas.drawCircle(center, 6, dotPainter..color = Colors.grey);
-    canvas.drawCircle(
-        center, 5, Paint()..color = Colors.black);
+    canvas.drawCircle(center, 5, Paint()..color = Colors.black);
     // canvas.drawCircle(center, 10, dotPainter);
   }
 
