@@ -96,7 +96,10 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
                             AnimatedOpacity(
                               // If the widget is visible, animate to 0.0 (invisible).
                               // If the widget is hidden, animate to 1.0 (fully visible).
-                              opacity: this._showReminder ? 1.0 : 0.0,
+                              opacity: (this._showReminder &&
+                                      globals.enableSolatReminder)
+                                  ? 1.0
+                                  : 0.0,
                               duration: Duration(milliseconds: 500),
                               // The green box must be a child of the AnimatedOpacity widget.
                               child: Container(
@@ -123,7 +126,7 @@ class _AzanScheduleWidgetState extends State<AzanScheduleWidget> {
                                         ),
                                         SizedBox(height: 20),
                                         Text(
-                                          'Have you perform your solat ${this._nowSolatName}?',
+                                          'Have you perform your ${this._nowSolatName} prayer?',
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline1
