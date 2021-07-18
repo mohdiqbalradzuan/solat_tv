@@ -7,8 +7,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-feature android:name="android.software.leanback"
-        android:required="true" />
     <application
         android:label="Solat TV"
         android:banner="@drawable/banner"
@@ -41,7 +39,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-                <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
@@ -49,7 +47,20 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAFcfBy_HEyZY3VuUj8a8ri234qeMb9UVU"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAFcfBy_HEyZY3VuUj8a8ri234qeMb9UVU" />
+
+        <receiver
+            android:name=".SolatTvServiceAtBootReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="true" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 </manifest>
