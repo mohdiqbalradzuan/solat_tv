@@ -1,4 +1,4 @@
-package com.solat_tv.solat_tv
+package com.iqbalradzuan.solat_tv
 
 import android.content.BroadcastReceiver
 import android.content.Context
