@@ -27,7 +27,12 @@ class DailySolatTimeModelJakim {
     TimeOfDay isyak;
 
     //print('Data from JAKIM: $json');
-    gregorianDate = DateFormat('dd-MMM-yyyy').parse(json['date']);
+    gregorianDate = DateFormat('dd-MMM-yyyy').parse(json['date']
+        .replaceAll('-Mac-', '-Mar-')
+        .replaceAll('-Mei-', '-May-')
+        .replaceAll('-Ogos-', '-Aug-')
+        .replaceAll('-Okt-', '-Oct-')
+        .replaceAll('-Dis-', '-Dec-'));
     dayOfWeek = json['dayOfWeek'];
 
     var imsakTimeOfDayString = json['imsak'];

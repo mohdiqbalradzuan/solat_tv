@@ -35,45 +35,43 @@ class _AzanClockWidgetState extends State<AzanClockWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var now = DateTime.now();
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 20),
-            StreamBuilder(
-              stream: this._timerController.currentTime.stream,
-              builder: (context, AsyncSnapshot snapshot) {
-                var now = DateTime.now();
+        StreamBuilder(
+          stream: this._timerController.currentTime.stream,
+          builder: (context, AsyncSnapshot snapshot) {
+            var now = DateTime.now();
 
-                return Text(
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 20),
+                Text(
                   '${DateFormat('EEEE').format(now)} - ${this._timerController.showTime('HH:mm:ss', now)}',
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         fontSize: widget._width / 12.0,
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).primaryColor,
                       ),
-                );
-              },
-            ),
-            Text(
-              '${HijriCalendar.now().toFormat('dd MMMM yyyy')}',
-              style: Theme.of(context).textTheme.headline1.copyWith(
-                    fontSize: widget._width / 18.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
-            Text(
-              '${DateFormat('dd MMMM yyyy').format(now)}',
-              style: Theme.of(context).textTheme.headline1.copyWith(
-                    fontSize: widget._width / 20.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
-          ],
+                ),
+                Text(
+                  '${HijriCalendar.now().toFormat('dd MMMM yyyy')}',
+                  style: Theme.of(context).textTheme.headline1.copyWith(
+                        fontSize: widget._width / 18.0,
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+                Text(
+                  '${DateFormat('dd MMMM yyyy').format(now)}',
+                  style: Theme.of(context).textTheme.headline1.copyWith(
+                        fontSize: widget._width / 20.0,
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+              ],
+            );
+          },
         ),
         SizedBox(height: 30),
         StreamBuilder(
